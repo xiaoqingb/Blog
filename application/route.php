@@ -23,4 +23,7 @@ return [
     'regist'=>'index/index/regist',
     'login'=>'index/index/login',
     'setting'=>'index/index/setting',
+    'my_comment'=>'index/index/my_comment',
+    'comment_to_me'=>'index/index/comment_to_me',
+    'my_article'=>'index/index/my_article',
 ];

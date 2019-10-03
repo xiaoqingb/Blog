@@ -488,7 +488,7 @@
                 // 获取失败则跳转dao登录页面
                 if (response.code!== "0000") {
                     console.log(response.msg)
-                    // location.href = "login.html";
+                    location.href = "login.html";
                     return;
                 }
                 // 获取成功则输出昵称

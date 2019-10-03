@@ -24,7 +24,18 @@ class Index
     }
     public function  login(){
         return view();
-    }public function  setting(){
+    }
+    public function  setting(){
+        return view();
+    }
+    public function  my_comment(){
+        return view();
+    }
+    public function  comment_to_me(){
+        return view();
+    }
+    public function my_article(){
         return view();
     }
 }
+

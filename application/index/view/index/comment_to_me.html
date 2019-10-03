@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>个人信息</title>
+</head>
+<body>
+<div id="nav-header-bg">
+    <div id="nav-header-container">
+        <ul class="layui-nav" id="nav-header" lay-filter="">
+            <div id="nav-header-left">
+            </div>
+
+            <div id="nav-header-right">
+                <li class="layui-nav-item">
+                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="" id="user-name">
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="setting.html">个人信息</a></dd>
+                        <dd><a href="javascript:;">登出</a></dd>
+                    </dl>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+
+<div id="page-middle">
+    <div id="setting-frame">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left-nav">
+            <li class="layui-nav-item "><a id="basic-setting-btn" href="javascript:;">基本设置</a></li>
+            <li class="layui-nav-item "><a id="my-comment" href="javascript:;">我的评论</a></li>
+            <li class="layui-nav-item layui-this"><a id="comment-to-me" href="javascript:;">评论我的</a></li>
+            <li class="layui-nav-item"><a id="my-article" href="javascript:;">我的内容</a></li>
+        </ul>
+        <div class="right-setting-frame">
+            <div class="layui-tab layui-show" id="base-setting">
+                <ul class="layui-tab-title tab-title">
+                    <li class="layui-this">基本信息</li>
+                    <li>修改头像</li>
+                    <li>修改密码</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show " >
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">昵称</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">邮箱</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">QQ</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="text" required lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">城市</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">签名</label>
+                                <div class="layui-input-block">
+                                    <textarea name="desc" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <button type="button" class="layui-btn" id="test1">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+                        <span>建议尺寸200*200，支持jpg,png,gif,最大不能超过5MB。</span>
+                        <p> &#8195; </p>
+                        <div id="pic-frame">
+                            <img id="upload-pic" src="https://p.ssl.qhimg.com/dm/633_417_/t01ff10b83ae9354836.png" alt="">
+                        </div>
+                    </div>
+                    <div class="layui-tab-item layui-form-pane">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">重复密码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page-member-msg"></div>
+<div id="page-footer">
+    <p class="copy-right">
+        Copyright© 2019-2020
+        <span class="pipe">|</span>
+        <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+        <span class="pipe">|</span>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+        <span class="pipe">|</span>
+        <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+<script>
+    $(window).on("load",()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/getName",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+
+                $.ajax({
+                    url:'/__PUBLIC__/public/index/member/get_basic_msg',
+                    type:'get',
+                    success:function (response) {
+                        response=JSON.parse(response);
+                        console.log(response);
+                        $.ajax({
+                            url:'/__PUBLIC__/public/index/member/get_basic_msg',
+                            type:'get',
+                            success:function (response) {
+                                response=JSON.parse(response);
+                                console.log(response);
+                            }
+                        })
+                        console.log("asdas");
+                    }
+                })
+                console.log("asdas");
+            }
+        });
+    })
+
+    $('#my-comment').click(function () {
+        location.href='my_comment'
+    })
+    $('#setting').click(function () {
+        location.href='setting'
+    })
+    $('#my-article').click(function () {
+        location.href='my_article'
+    })
+
+    layui.use(['layer', 'form', 'element', 'jquery'], function () {
+        let layer = layui.layer
+            , form = layui.form
+            , element = layui.element
+    });
+
+</script>
+</body>
+</html>
