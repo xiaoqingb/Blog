@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册页面</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/regist.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+</head>
+<body>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+
+<div class="middle-container">
+    <div class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="nickName">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="nickName" id="nickName" required  lay-verify="required" placeholder="请输入邮箱"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="email">邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="email" id="email" required  lay-verify="required" placeholder="请输入邮箱"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="password">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="comfirm-password">重复密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="comfirm-password" id="comfirm-password" required lay-verify="required" placeholder="请再次输入密码"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-block">
+                <select name="city" lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">北京</option>
+                    <option value="1">上海</option>
+                    <option value="2">广州</option>
+                    <option value="3">深圳</option>
+                    <option value="4">杭州</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="1" title="男" checked>
+                <input type="radio" name="sex" value="0" title="女" >
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label" for="motto">个性签名</label>
+            <div class="layui-input-block">
+                <textarea name="motto" id="motto" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            console.log(data.field)
+            if(data.field['password']!==data.field['comfirm-password']){
+                layer.msg('呜呜呜，两次输入密码不一致!');
+                return false;
+            }
+            // 验证邮箱格式
+            var a=/[a-zA-Z0-9]{6,20}/.test(data.field['email']);
+            if(!a){
+                // 不符合则输出错误信息
+                layer.msg('呜呜呜，邮箱格式错误!');
+                return ;
+            }
+            // 验证密码格式
+            var a=/[a-z]{1,}/.test(data.field['password']);
+            var b=/[A-Z]{1,}/.test(data.field['password']);
+            var c=/[0-9]{1,}/.test(data.field['password']);
+            var d=/\w{6,20}/.test(data.field['password']);
+            if(!a || !b || !c ||!d){
+                // 不符合则输出错误信息
+                layer.msg('呜呜呜，密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!');
+            }
+            $.ajax({
+                url:'/blog/public/index/Member/regist',
+                type:'post',
+                data:{
+                    email:data.field['email'],
+                    password:data.field['password'],
+                    sex:data.field['sex'],
+                    motto:data.field['motto'],
+                    nickName:data.field['nickName'],
+                },
+                success:function (response) {
+                    response=JSON.parse(response);
+                    console.log(response)
+                    if (response.code!=='0000'){
+                        console.log(response.msg)
+                    }
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

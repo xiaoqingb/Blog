@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/regist.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+</head>
+<body>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+    <div class="login-container">
+        <div class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="email">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" id="email" required  lay-verify="required" placeholder="请输入邮箱"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="password">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即登录
+                      </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            console.log(data.field)
+            if(!data.field['password']||!data.field['email']){
+                layer.msg('呜呜呜，你没有填完整');
+                return false;
+            }
+            $.ajax({
+                url:'/blog/public/index/Member/login',
+                type:'post',
+                data:{
+                    email:data.field['email'],
+                    password:data.field['password'],
+                },
+                success:function (response) {
+                    response=JSON.parse(response);
+                    console.log(response)
+                    if (response.code!=='0000'){
+                        layer.msg('欢迎你~,'+response.msg);
+                        return;
+                    }
+                    layer.msg(response.msg);
+                    setTimeout(function () {
+                        location.href='index';
+                    },3000);
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

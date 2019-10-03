@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>文章页面</title>
+</head>
+<body>
+    <div id="nav-header-bg">
+        <div id="nav-header-container">
+            <ul class="layui-nav" id="nav-header" lay-filter="">
+                <div id="nav-header-left">
+                </div>
+                
+                <div id="nav-header-right">
+                    <li class="layui-nav-item">
+                    </li>
+                    <li class="layui-nav-item" >
+                        <a href="" id="user-name"></a>
+                        <dl class="layui-nav-child" >
+                            <dd><a href="setting.html">个人信息</a></dd>
+                            <dd><a href="javascript:;">登出</a></dd>
+                        </dl>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div id="page-middle">
+        
+        <div id="pg-left">
+            <div id="left-container">
+            </div>
+            <h3>评论区</h3>
+            <div id="article-comment-list">
+                <div class="article-comment-item">
+                    <div class="comment-item-top">
+                        <div class="img-container">
+                            <img src="https://static.doc88.com/resources/images/idocbank.png">
+                        </div>
+                        <div class="commemet-user-name-time">
+                            <div class="comment-user-name">
+                                <span>aaa</span>
+                            </div>
+                            <div class="comment-user-time">ccc</div>
+                        </div>
+                    </div>
+
+                    <div class="comment-item-bottom">good day!</div>
+                </div>
+            </div>
+        </div>
+        <div id="pg-right">
+            <div id="right-container">
+                <div class="right-top">
+                    <form class="layui-form" id="search-frame" action="">
+                        <input id='search-content' type="text" name="title" required lay-verify="required" placeholder="搜索" autocomplete="off"
+                        class="layui-input">
+                        <i class="layui-icon layui-icon-search" id="search-btn"></i>
+                    </form>
+                    <div id="num-msg">
+                        <ul>
+                            <li><p id="article-count"></p>文章数</li>
+                            <li><p id="member-count"></p>会员总数</li>
+                            <li><p id="reply-count"></p>评论总数</li>
+                        </ul>
+                    </div>
+                    <div id="contribute">
+                        <p id="submit-for-publication">欢迎打赏投稿</p>
+                        <button id="contribute-btn">投稿</button>
+                        <button id="reward-btn">打赏</button>
+                    </div>
+                </div>
+                <div id="right-middle">
+                    <p>热门标签</p>
+                    <div id="label-container">
+                        <span class="link-label">Linux</span>
+                        <span class="link-label">PHP</span>
+                        <span class="link-label">Python</span>
+                        <span class="link-label">TP5</span>
+                        <span class="link-label">javascript</span>
+                        <span class="link-label">C++</span>
+                    </div>
+                </div>
+                <div class="right-bottom">
+                    <p>热门推荐</p>
+                    <div class="recommend-container">
+                        <div class="recommend-item">
+                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
+                            <span>2017-12-23 07:05:37</span>
+                        </div>
+                        <div class="recommend-item">
+                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
+                            <span>2017-12-23 07:05:37</span>
+                        </div>
+                        <div class="recommend-item">
+                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
+                            <span>2017-12-23 07:05:37</span>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="right-bottom-extra">
+                    <p>友情链接</p>
+                    <div class="link-container">
+                        <div class="link-item">
+                            <a href="">图标库</a>
+                            <a href="">图标库</a>
+                            <a href="">图标库</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page-member-msg"></div>
+    <div id="page-footer">
+        <p class="copy-right">
+            Copyright© 2019-2020
+            <span class="pipe">|</span>
+            <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+            <span class="pipe">|</span>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+            <span class="pipe">|</span>
+            <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+
+<script>
+    $(window).on("load",  ()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/get_name",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+            }
+        });
+
+    })
+    // 时间戳转换器
+    function timestampToTime(timestamp) {
+        let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        D = change(date.getDate()) + ' ';
+        h = change(date.getHours()) + ':';
+        m = change(date.getMinutes()) + ':';
+        s = change(date.getSeconds());
+        return Y + M + D + h + m + s;
+    }
+    function change(t) {
+        if (t < 10) {
+            return "0" + t;
+        } else {
+            return t;
+        }
+    }
+    function bindArticleListener() {
+        $(".article-choice").click(function () {
+            location.href="article?name="+escape($(this).html());
+        })
+    }
+    // 导航栏和搜索框的响应事件
+     function search(keyword){
+        $.ajax({
+                        url: "/blog/public/index/Content/get_article_list",
+                        type: "get",
+                        data: {
+                            'keyword': keyword,
+                        },
+                        success: (response) => {
+                            response = JSON.parse(response);
+                            // console.log(response);
+                            if(response.code!=="0000")
+                            {
+                                layer.msg('呜呜呜，博客里找不到客官想要的内容!');
+                                return;
+                            }
+                            let time;
+                            $('#left-container').empty();
+                            $('#left-container').append(`<div id="article-list"></div>`);
+                            for (let i = 0; i < response.msg[0].length; i++) {
+                                time = timestampToTime(response.msg[7][i])
+                                $('#article-list').append(`<div class="article-list-container">
+                                    <div class="article-item">
+                                        <img class="article-pic" src="${response.msg[2][i]}" alt="">
+                                        <div class="article-msg" >
+                                            <p class="article-title article-choice" >${response.msg[0][i]}</p>
+                                            <p class="name-time-clickNum">
+                                                <a href="">
+                                                    <img class="head" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg" alt="" srcset="">
+                                                </a>
+                                                <span class="account-name-time">${response.msg[6][i]} ${time}
+                                                </span>
+                                                <span class="discuss-read">
+                                                    <i class="layui-icon layui-icon-dialogue">${response.msg[4][i]}</i>
+                                                    <i class="layui-icon layui-icon-read">99</i>
+                                                </span>
+                                            </p>
+                                            <p class="article-content">${response.msg[1][i]}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+                            
+                            
+                        }
+                        bindArticleListener();
+                    }
+                });
+    }
+     // 这个是获取导航栏内容
+     function ajaxDemo() {
+         return $.ajax({
+             url: "/blog/public/index/Nav/get_nav",
+             type: "get",
+             success: (response) => {
+                 response = JSON.parse(response);
+                 // i是下拉列表的表头
+                 for (let i in response.msg) {
+                     if (isNaN(i)) {
+                         if (response.msg[i].length === 0) {
+                             // 如果没有多余选项就只生成单独一个li
+                             $("#nav-header-left").append(`<li class="layui-nav-item"><a href="">${i}</a></li>`);
+                         } else {
+                             // 有多余选项则生成下拉列表
+                             let xx = "";
+                             // 这里我是把下拉列表的选项都合并在一起了，方便下面字符串连接
+                             for (let j = 0; j < response.msg[i].length; j++) {
+                                 xx += `<dd><a class="article-name-group" >${response.msg[i][j]}</a></dd>`;
+                             }
+                             $("#nav-header-left").append(` <li class="layui-nav-item">
+                                <a >${i}<span class="layui-nav-more"></span></a>
+                                <dl class="layui-nav-child "  >
+                                    ${xx}
+                                </dl>
+                            </li> `);
+                         }
+                     }
+                 }
+                 $(".article-name-group").click(function () {
+
+                     $.ajax({
+                         url: "/blog/public/index/Content/get_article_list",
+                         type: "get",
+                         data: {
+                             'keyword': $(this).html(),
+                         },
+                         success: (response) => {
+                             response = JSON.parse(response);
+                             // console.log(response);
+                             let time;
+                             $('#left-container').empty();
+                             $('#left-container').append(`<div id="article-list"></div>`);
+                             for (let i = 0; i < response.msg[0].length; i++) {
+                                 time = timestampToTime(response.msg[7][i])
+
+                                 function timestampToTime(timestamp) {
+
+                                     let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                                     Y = date.getFullYear() + '-';
+                                     M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                                     D = change(date.getDate()) + ' ';
+                                     h = change(date.getHours()) + ':';
+                                     m = change(date.getMinutes()) + ':';
+                                     s = change(date.getSeconds());
+                                     return Y + M + D + h + m + s;
+                                 }
+
+                                 function change(t) {
+                                     if (t < 10) {
+                                         return "0" + t;
+                                     } else {
+                                         return t;
+                                     }
+                                 }
+
+
+                                 $('#article-list').append(`<div class="article-list-container">
+                                    <div class="article-item">
+                                        <img class="article-pic" src="${response.msg[2][i]}" alt="">
+                                        <div class="article-msg" >
+                                            <p class="article-title article-choice" >${response.msg[0][i]}</p>
+                                            <p class="name-time-clickNum">
+                                                <a href="">
+                                                    <img class="head" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg" alt="" srcset="">
+                                                </a>
+                                                <span class="account-name-time">${response.msg[6][i]} ${time}
+                                                </span>
+                                                <span class="discuss-read">
+                                                    <i class="layui-icon layui-icon-dialogue">${response.msg[4][i]}</i>
+                                                    <i class="layui-icon layui-icon-read">99</i>
+                                                </span>
+                                            </p>
+                                            <p class="article-content">${response.msg[1][i]}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+
+
+                             }
+                             bindArticleListener();
+
+                         }
+                     });
+                 })
+             }
+
+         });
+
+     }
+     // 获取评论
+     function getComment() {
+         let article = unescape(/(name)=(.*)/.exec(location.search)[2]) ;
+         let title = article;
+         $.ajax({
+             url: "/blog/public/index/Comment/get_comment_list",
+             type: "get",
+             data:{
+               title
+             },
+             success: (response) => {
+                 response = JSON.parse(response);
+                 let time;
+                 for (let i=0;i<response.data.length;i++){
+                      time=timestampToTime(response.data[i]['time'])
+                     $("#article-comment-list").append(`<div class="article-comment-item">
+                                                        <div class="comment-item-top">
+                                                            <div class="img-container">
+                                                                <img src="${response.data[i]['userhead']}">
+                                                            </div>
+                                                            <div class="commemet-user-name-time">
+                                                                <div class="comment-user-name">
+                                                                    <span>${response.data[i]['username']}</span>
+                                                                </div>
+                                                                <div class="comment-user-time">${time}</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="comment-item-bottom">${response.data[i]['content']}</div>
+                                                    </div>`)
+                 }
+
+                 return response;
+             }
+         });
+     }
+     // 获取url的文章名
+     function getArticle(){
+         let article = unescape(/(name)=(.*)/.exec(location.search)[2]) ;
+         console.log(article)
+         let title = article;
+         $.ajax({
+             url: '/blog/public/index/Content/show_article',
+             type: 'get',
+             data: {
+                 title:article,
+             },
+             success: (response) => {
+                 response = JSON.parse(response);
+                 // console.log(response.msg[0]);
+                 $('#left-container').append(`<div id="article-bg">${response.msg[0]}</div>`);
+                 $('#left-container').append(`
+                                        <span class="edit-label" id="comment-submit-label">发表评论</span>
+                                        <div id="editor">
+                                            <p>输入你喜欢的内容</p>
+                                        </div>
+                                        <button type="button" id="submit-contribute" class="layui-btn layui-btn-lg">提交</button>
+                                        <textarea id="tarea" name="content" hidden></textarea>
+                                                `)
+                 var E = window.wangEditor;
+                 var editor = new E('#editor');
+
+                 var $text1 = $('#tarea')
+                 editor.customConfig.uploadImgServer = '/__PUBLIC__/index/comment/uploads'; //上传URL
+                 editor.customConfig.uploadImgMaxSize = 100 * 1024 * 1024;
+                 editor.customConfig.uploadImgMaxLength = 100;
+                 editor.customConfig.uploadFileName = 'file';//服务端接收file的名字
+                 editor.customConfig.uploadImgHooks = {
+                     customInsert: function (insertImg, result, editor) {
+                         // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+                         // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+                         // console.log(result);
+                         // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+                         var url = result.data;
+                         insertImg(url);
+
+                         // result 必须是一个 JSON 格式字符串！！！否则报错
+                     }
+                 }
+                 editor.customConfig.debug = true
+                 editor.customConfig.onchange = function (html) {
+                     // 监控变化，同步更新到 textarea
+                     $text1.val(html)
+                 }
+                 editor.create()
+                 // 初始化 textarea 的值
+                 $text1.val(editor.txt.html())
+                 $("#submit-contribute").click(function () {
+                     let commentText = editor.txt.text();
+                     let commentHtml = editor.txt.html();
+                     let articleName=unescape(/(name)=(.*)/.exec(location.search)[2]);
+                     if( commentText == "") {
+                         layer.msg('评论不能为空！', {icon: 2, time: 1000});
+                         return false;
+                     }
+                     $.ajax({
+                         url: "/__PUBLIC__/index/comment/submit_comment",
+                         type: "post",
+                         data: {
+                             commentHtml,
+                             article:articleName,
+                         },
+                         success: function (response) {
+                             response = JSON.parse(response);
+                             console.log(response);
+                             layer.msg('添加评论成功!', {icon: 1, time: 1000});
+                            $('#article-comment-list').empty();
+
+                             getComment();
+                         },
+                         error: function (response) {
+                             // console.log(response);
+                         }
+                     });
+                 })
+                 getComment();
+             }
+         });
+     }
+
+     getArticle();
+     ajaxDemo().then((response) => {
+         $.ajax({
+             url: "/blog/public/index/Content/get_article_menber_reply_count",
+             type: "get",
+             success: (response) => {
+                 response = JSON.parse(response);
+                 // console.log(response);
+                 $("#member-count").append(response.msg[1]);
+                 $("#article-count").append(response.msg[0]);
+                 $("#reply-count").append(response.msg[2]);
+                 layui.use(['layer', 'form', 'carousel', 'element', 'jquery'], function () {
+                     let layer = layui.layer
+                         , form = layui.form
+                         , element = layui.element
+                         , carousel = layui.carousel
+                         , $ = layui.$;
+
+                     carousel.render({
+                         interval: '2000',
+                         elem: '#carousel'
+                         , width: '100%' //设置容器宽度
+                         , arrow: 'hover' //始终显示箭头
+                         , anim: 'fade' //切换动画方式
+                     });
+                 });
+                 return response;
+             }
+         });
+
+     });
+    $('#search-btn').click(function(){
+        search($("#search-content").val());
+        console.log($("#search-content").val());
+    })
+    $('#contribute-btn').click(function () {
+        location.href="submit"
+    })
+
+
+</script>
+
+</body>
+
+</html>

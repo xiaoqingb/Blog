@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>投稿页面</title>
+</head>
+<body>
+    <div id="nav-header-bg">
+        <div id="nav-header-container">
+            <ul class="layui-nav" id="nav-header" lay-filter="">
+                <div id="nav-header-left">
+                </div>
+                
+                <div id="nav-header-right">
+                    <li class="layui-nav-item">
+                        <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="" id="user-name">
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">个人信息</a></dd>
+                            <dd><a href="javascript:;">登出</a></dd>
+                        </dl>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div id="page-middle">  
+        <div id="pg-left">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <span class="edit-label">标题</span>
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" id="article-title">
+
+                </div>
+            </form>
+            <span class="edit-label">内容</span>
+            <div id="editor">
+                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+            </div>
+            <button type="button" id="submit-contribute" class="layui-btn layui-btn-lg">提交</button>
+            <textarea id="tarea" name="content" hidden></textarea>
+
+        </div>
+    </div>
+    <div id="page-member-msg"></div>
+    <div id="page-footer">
+        <p class="copy-right">
+            Copyright© 2019-2020
+            <span class="pipe">|</span>
+            <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+            <span class="pipe">|</span>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+            <span class="pipe">|</span>
+            <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+<script>
+    $(window).on("load",  ()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/get_name",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+            }
+        });
+
+    })
+    layui.use(['layer', 'form', 'element', 'jquery'], function () {
+                    let layer = layui.layer
+                        , form = layui.form
+                        , element = layui.element
+                        , carousel = layui.carousel
+                });
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    
+    var $text1 = $('#tarea')
+    editor.customConfig.uploadImgServer = '/__PUBLIC__/index/content/uploads'; //上传URL
+    editor.customConfig.uploadImgMaxSize = 100 * 1024 * 1024;
+    editor.customConfig.uploadImgMaxLength = 100;
+    editor.customConfig.uploadFileName = 'file';//服务端接收file的名字
+    editor.customConfig.uploadImgHooks = {
+        customInsert: function (insertImg, result, editor) {
+            // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+            // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+            // console.log(result);
+            // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+            var url = result.data;
+            insertImg(url);
+            
+            // result 必须是一个 JSON 格式字符串！！！否则报错
+        }
+    }
+    editor.customConfig.debug = true
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $text1.val(html)
+    }
+    editor.create()
+    // 初始化 textarea 的值
+    $text1.val(editor.txt.html())
+    $("#submit-contribute").click(function () {
+        console.log("aaaaaa")
+        let articleTitle = $('#article-title').val();
+        let articleText = editor.txt.text();
+        let articleHtml = editor.txt.html();
+        if (articleTitle == "" || articleText == "") {
+            layer.msg('标题和内容填写不完整！', {icon: 2, time: 1000});
+            return false;
+        }
+        // console.log(articleTitle, articleText, articleHtml);
+        $.ajax({
+            url: "/__PUBLIC__/index/content/submit_article",
+            type: "post",
+            data: {
+                articleTitle, articleText, articleHtml
+            },
+            success: function (response) {
+                response = JSON.parse(response);
+                // console.log(response);
+                layer.msg('添加成功!', {icon: 1, time: 1000});
+            },
+            error: function (response) {
+                // console.log(response);
+            }
+        });
+    })
+</script>
+</body>
+</html>

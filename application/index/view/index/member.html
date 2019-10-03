@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>会员信息</title>
+</head>
+<body>
+    <div id="nav-header-bg">
+        <div id="nav-header-container">
+            <ul class="layui-nav" id="nav-header" lay-filter="">
+                <div id="nav-header-left">
+                </div>
+                
+                <div id="nav-header-right">
+                    <li class="layui-nav-item">
+                        <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                    </li>
+                    <li class="layui-nav-item" id="user-name">
+                        <dl class="layui-nav-child">
+                            <dd><a href="setting.html">个人信息</a></dd>
+                            
+                            <dd><a href="javascript:;">退了</a></dd>
+                        </dl>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div id="page-member-msg"></div>
+    <div id="page-footer">
+        <p class="copy-right">
+            Copyright© 2019-2020
+            <span class="pipe">|</span>
+            <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+            <span class="pipe">|</span>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+            <span class="pipe">|</span>
+            <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script>
+    $(window).on("load",  ()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/get_name",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+            }
+        });
+
+    })
+    function timestampToTime(timestamp) {
+        
+        let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        D = change(date.getDate()) + ' ';
+        h = change(date.getHours()) + ':';
+        m = change(date.getMinutes()) + ':';
+        s = change(date.getSeconds());
+        return Y + M + D + h + m + s;
+    }
+    
+    function change(t) {
+        if (t < 10) {
+            return "0" + t;
+        } else {
+            return t;
+        }
+    }
+    let name = unescape(/(name)=(.*)/.exec(location.search)[2]) ;
+    console.log(name)
+    $.ajax({
+        url: "/blog/public/index/Member/get_member_msg",
+        type: "get",
+        data: {
+            memberName: name,
+        },
+        success: (response) => {
+            response = JSON.parse(response);
+            // console.log(response);
+            let sexClass;
+            if (Number(response.msg[3][0]) === 1) {
+                sexClass = 'layui-icon-male color-blue'
+            } else {
+                sexClass = 'layui-icon-female color-red'
+            }
+            let signature;
+            if (response.msg[3][6] === undefined) {
+                signature = "这个人很懒,没有留下签名"
+            } else {
+                signature = response.msg[3][6];
+            }
+            $("#page-middle").empty();
+            $("#page-member-msg").append(`
+            <div id="base-msg">
+                <div class="msg-head-pic">
+                    <img src="${response.msg[1]}">
+                </div>
+                <div class="msg-name-sex">
+                    <span class="msg-name">${response.msg[0]}</span>
+                    <i class="layui-icon ${sexClass}" ></i>
+                </div>
+                <div class="join-time-location">
+                    <i class="layui-icon layui-icon-time"></i>
+                    <span class="join-time">${timestampToTime(response.msg[2]).slice(0, 10)}  加入</span>
+                    <i class="layui-icon layui-icon-location"></i>
+                    <span class="location"><img src="">${response.msg[5]}<span>
+                    </div>
+                    <p class="signature">(${signature})</p>
+                </div>
+                <div id="content-Comment-container">
+                    <div id="center-container">
+                        <div id="recent-content" class="recent-message"><h2>最近的内容</h2></div>
+                        <div id="recent-comment" class="recent-message"><h2>最近的评论</h2></div>
+                    </div>
+                </div>
+                
+                `)
+                
+                $.ajax({
+                    url:"/blog/public/index/Content/get_member_article",
+                    type:"get",
+                    data:{
+                        memberName: name,
+                    },
+                    success:function (response) {
+                        response=JSON.parse(response)
+                        // console.log(response.msg)
+                        let recentTime;
+                        for (let i = 0; i < response.msg[0].length; i++) {
+                            recentTime=timestampToTime(response.msg[1][i]).slice(0, 10);
+                            $("#recent-content").append(`
+                            <div class="recent-content-item">
+                                <span>${response.msg[0][i]}</span>
+                                <p id="recent-time">${recentTime}</p>
+                            </div>`)
+                        }
+                    }
+                })
+                $.ajax({
+                    url:"/blog/public/index/Comment/get_recent_comment",
+                    type:"get",
+                    data:{
+                        memberName: name,
+                    },
+                    success:function(response){
+                        response=JSON.parse(response);
+                        console.log(response);
+                        let recentTime;
+                        for (let i = 0; i < response.msg.length; i++) {
+                            recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
+                            console.log(recentTime);
+                            $("#recent-comment").append(`
+                            <div class="recent-comment-item">
+                                <span>${recentTime}</span> 在
+                                <span>${response.msg[i]['title']}</span>  中回答: 
+                                ${response.msg[i]['content']}
+                            </div>`)
+                        }
+                    }
+                })
+            }
+        });   
+        
+    </script>
+</body>
+</html>

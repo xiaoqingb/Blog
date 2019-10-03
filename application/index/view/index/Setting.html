@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>个人信息</title>
+</head>
+<body>
+<div id="nav-header-bg">
+    <div id="nav-header-container">
+        <ul class="layui-nav" id="nav-header" lay-filter="">
+            <div id="nav-header-left">
+            </div>
+
+            <div id="nav-header-right">
+                <li class="layui-nav-item">
+                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="" id="user-name">
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="setting.html">个人信息</a></dd>
+                        <dd><a href="javascript:;">登出</a></dd>
+                    </dl>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+
+<div id="page-middle">
+    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+        <li class="layui-nav-item layui-nav-itemed">
+            <a href="javascript:;">默认展开</a>
+
+        </li>
+        <li class="layui-nav-item"><a href="javascript:;">解决方案</a></li>
+        <li class="layui-nav-item"><a href="">产品</a></li>
+        <li class="layui-nav-item"><a href="">大数据</a></li>
+    </ul>
+</div>
+<div id="page-member-msg"></div>
+<div id="page-footer">
+    <p class="copy-right">
+        Copyright© 2019-2020
+        <span class="pipe">|</span>
+        <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+        <span class="pipe">|</span>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+        <span class="pipe">|</span>
+        <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+<script>
+    $(window).on("load",  ()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/getName",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+            }
+        });
+
+    })
+    layui.use(['layer', 'form', 'element', 'jquery'], function () {
+        let layer = layui.layer
+            , form = layui.form
+            , element = layui.element
+            , carousel = layui.carousel
+    });
+
+</script>
+</body>
+</html>

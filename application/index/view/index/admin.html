@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo</title>
+</head>
+<body>
+<div id="editor">
+    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+</div>
+
+<!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+<script type="text/javascript">
+    $(window).on("load",  ()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/get_name",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                // 获取失败则跳转dao登录页面
+                if (response.code !== "0000") {
+                    location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+
+    <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
+    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
+    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <title>Xiaoqingb Blog</title>
+</head>
+<body>
+<div id="nav-header-bg">
+    <div id="nav-header-container">
+        <ul class="layui-nav" id="nav-header" lay-filter="">
+            <div id="nav-header-left">
+                    <li class="layui-nav-item">
+                            <a href="">xiaoqingb Blog<span class="layui-badge-dot"></span></a>
+                        </li>
+            </div>
+
+            <div id="nav-header-right">
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="">个人中心<span class="layui-badge-dot"></span></a>-->
+<!--                </li>-->
+                <li class="layui-nav-item">
+                    <a href="" id="user-name">
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="setting.html">个人信息</a></dd>
+                        <dd><a href="javascript:;">登出</a></dd>
+                    </dl>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+<div id="page-middle">
+
+    <div id="pg-left">
+        <div id="left-container">
+            <div class="layui-carousel" id="carousel">
+                <div id="carousel-frame" carousel-item>
+                </div>
+            </div>
+            <div id="recommend-container">
+                <h2>置顶推荐</h2>
+                <ul id="recommend-settop">
+
+                </ul>
+            </div>
+            <div id="newest-account">
+                <h2>最新用户</h2>
+                <ul id="user-list">
+                </ul>
+            </div>
+            <div id="article-list">
+                <h2>最新文章</h2>
+                <div class="article-list-container">
+                    <div class="article-item">
+                        <img class="article-pic"
+                             src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg"
+                             alt="">
+                        <div class="article-msg">
+                            <p class="article-title article-choice">a啊啊啊啊</p>
+                            <p class="name-time-clickNum">
+                                <a href="">
+                                    <img class="head"
+                                         src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg"
+                                         alt="" srcset="">
+                                </a>
+
+                                <span class="account-name-time">匿名         2019-09-19 16:47:45
+                                                </span>
+                                <span class="discuss-read">
+                                                    <i class="layui-icon layui-icon-dialogue">2</i>
+                                                    <i class="layui-icon layui-icon-read">99</i>
+                                                </span>
+                            </p>
+                            <p class="article-content">宽带拨号，或者在公司，都是内网IP，也就是说你只能连接别人，别人不能连接你
+                                其原理跟花生壳差不多一样，但是还是需要点代很多人的电脑目前宽带拨号，或者在公司，都是内网IP，也就是说你只能连接别人，别人不能连接你
+                                其原理跟花生壳差不多一样，但是还是需要点代</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="pg-right">
+        <div id="right-container">
+            <div class="right-top">
+                <div class="layui-form" id="search-frame" action="">
+                    <input type="text" id="search-content" name="title"  lay-verify="required" placeholder="搜索" autocomplete="off"
+                           class="layui-input">
+                    <i class="layui-icon layui-icon-search" id="search-btn" ></i>
+                </div>
+                <div id="num-msg">
+                    <ul>
+                        <li><p id="article-count"></p>文章数</li>
+                        <li><p id="member-count"></p>会员总数</li>
+                        <li><p id="reply-count"></p>评论总数</li>
+                    </ul>
+                </div>
+                <div id="contribute">
+                    <p id="submit-for-publication">欢迎打赏投稿</p>
+                    <button id="contribute-btn">投稿</button>
+                    <button id="reward-btn">打赏</button>
+                </div>
+            </div>
+            <div id="right-middle">
+                <p>热门标签</p>
+                <div id="label-container">
+                    <span class="link-label">Linux</span>
+                    <span class="link-label">PHP</span>
+                    <span class="link-label">Python</span>
+                    <span class="link-label">TP5</span>
+                    <span class="link-label">javascript</span>
+                    <span class="link-label">C++</span>
+                </div>
+            </div>
+            <div class="right-bottom">
+                <p>热门推荐</p>
+                <div class="recommend-container">
+
+                </div>
+            </div>
+            <div class="right-bottom-extra">
+                <p>友情链接</p>
+                <div class="link-container">
+                    <div class="link-item">
+                        <a href="">图标库</a>
+                        <a href="">图标库</a>
+                        <a href="">图标库</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="page-member-msg"></div>
+<div id="page-footer">
+    <p class="copy-right">
+        Copyright© 2019-2020
+        <span class="pipe">|</span>
+        <a class="banquan" target="" href="">Powered by xiaoqingb</a>
+        <span class="pipe">|</span>
+        <a href="http://www.miitbeian.gov.cn/" target="_blank"></a>
+        <span class="pipe">|</span>
+        <a href="" target="_blank">Wechat:xiaoqingbbbb</a>
+        </span>
+    </p>
+</div>
+<script src="/__PUBLIC__/static/layui/layui.js"></script>
+<script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
+
+<script>
+    function load() {
+        function timestampToTime(timestamp) {
+            let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            D = change(date.getDate()) + ' ';
+            h = change(date.getHours()) + ':';
+            m = change(date.getMinutes()) + ':';
+            s = change(date.getSeconds());
+            return Y + M + D + h + m + s;
+        }
+
+        function change(t) {
+            if (t < 10) {
+                return "0" + t;
+            } else {
+                return t;
+            }
+        }
+        function search(keyword){
+            $.ajax({
+                url: "/blog/public/index/Content/get_article_list",
+                type: "get",
+                data: {
+                    'keyword': keyword,
+                },
+                success: (response) => {
+                    response = JSON.parse(response);
+                    // console.log(response);
+                    if(response.code!=="0000")
+                    {
+                        console.log(response)
+                        layer.msg('呜呜呜，博客里找不到客官想要的内容!');
+                        return;
+                    }
+                    let time;
+                    $('#left-container').empty();
+                    $('#left-container').append(`<div id="article-list"></div>`);
+                    for (let i = 0; i < response.msg[0].length; i++) {
+                        time = timestampToTime(response.msg[7][i])
+
+                        function timestampToTime(timestamp) {
+
+                            let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                            Y = date.getFullYear() + '-';
+                            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                            D = change(date.getDate()) + ' ';
+                            h = change(date.getHours()) + ':';
+                            m = change(date.getMinutes()) + ':';
+                            s = change(date.getSeconds());
+                            return Y + M + D + h + m + s;
+                        }
+
+                        function change(t) {
+                            if (t < 10) {
+                                return "0" + t;
+                            } else {
+                                return t;
+                            }
+                        }
+
+
+                        $('#article-list').append(`<div class="article-list-container">
+                                    <div class="article-item">
+                                        <img class="article-pic" src="${response.msg[2][i]}" alt="">
+                                        <div class="article-msg" >
+                                            <p class="article-title article-choice" >${response.msg[0][i]}</p>
+                                            <p class="name-time-clickNum">
+                                                <a href="">
+                                                    <img class="head" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg" alt="" srcset="">
+                                                </a>
+                                                <span class="account-name-time">${response.msg[6][i]} ${time}
+                                                </span>
+                                                <span class="discuss-read">
+                                                    <i class="layui-icon layui-icon-dialogue">${response.msg[4][i]}</i>
+                                                    <i class="layui-icon layui-icon-read">99</i>
+                                                </span>
+                                            </p>
+                                            <p class="article-content">${response.msg[1][i]}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+
+
+                    }
+                    bindArticleListener();
+                }
+            });
+        }
+
+        $('#search-btn').click(function(){
+            search($("#search-content").val());
+            console.log($("#search-content").val());
+        })
+        $('#reward-btn').click(function(){
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: ['auto', 'auto'],
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: '<img  src="https://i.loli.net/2019/09/28/KTjfQbFnRZzioMc.png">'
+            });
+        })
+        function bindArticleListener() {
+            $(".article-choice").click(function () {
+                location.href="article?name="+escape($(this).html());
+            })
+        }
+
+        bindArticleListener();
+        $('#contribute-btn').click(function () {
+            location.href="submit"
+        })
+        function ajaxDemo() {
+            return $.ajax({
+                url: "/blog/public/index/Nav/get_nav",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    // i是下拉列表的表头
+                    for (let i in response.msg) {
+                        if (isNaN(i)) {
+                            if (response.msg[i].length === 0) {
+                                // 如果没有多余选项就只生成单独一个li
+                                $("#nav-header-left").append(`<li class="layui-nav-item"><a href="">${i}</a></li>`);
+                            } else {
+                                // 有多余选项则生成下拉列表
+                                let xx = "";
+                                // 这里我是把下拉列表的选项都合并在一起了，方便下面字符串连接
+                                for (let j = 0; j < response.msg[i].length; j++) {
+                                    xx += `<dd><a class="article-name-group" >${response.msg[i][j]}</a></dd>`;
+                                }
+                                $("#nav-header-left").append(` <li class="layui-nav-item">
+                                                <a >${i}<span class="layui-nav-more"></span></a>
+                                                <dl class="layui-nav-child "  >
+                                                    ${xx}
+                                                </dl>
+                                            </li> `);
+                            }
+                        }
+                    }
+                    $(".article-name-group").click(function () {
+                        search($(this).html())
+                    })
+                }
+
+            });
+
+        }
+
+        ajaxDemo().then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_carousel_pic",
+                type: "get",
+                data:{
+                    picNum:5
+                },
+                success: (response) => {
+                    response = JSON.parse(response);
+                    console.log(response.msg)
+                    for (let i = 0; i < response.msg.length; i++) {
+                        $("#carousel-frame").append(`<div>
+                                    <img class="carousel-pic" src="${response.msg[i]['pic']}" data-title="${response.msg[i]['title']}" alt="">
+                                </div>`);
+                    }
+                    $('.carousel-pic').click(function () {
+                        location.href='article?name='+escape($(this).data('title'));
+                    })
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Member/get_Member_list",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    for (let i = 0; i < response.msg[0].length; i++) {
+                        $('#user-list').append(`<li>
+                                    <img class="account-pic" src="${response.msg[1][i]}" alt="">
+                                    <p class="member-name">${response.msg[0][i]}</p>
+                                </li>`);
+                    }
+                    $(".member-name").click(function () {
+                        let name = escape($(this).html())
+                        location.href="member?name="+name;
+                    })
+
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_article_list",
+                type: "get",
+                data:{
+                    num:4
+                },
+                success: (response) => {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    let time;
+                    for (let i = 0; i < response.msg[0].length; i++) {
+                        time = timestampToTime(response.msg[7][i])
+                        $('#article-list').append(`<div class="article-list-container">
+                                                            <div class="article-item">
+                                                                <img class="article-pic" src="${response.msg[2][i]}" alt="">
+                                                                <div class="article-msg" >
+                                                                    <p class="article-title article-choice">${response.msg[0][i]}</p>
+                                                                    <p class="name-time-clickNum">
+                                                                        <a href="">
+                                                                            <img class="head" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg" alt="" srcset="">
+                                                                        </a>
+                                                                        <span class="account-name-time">${response.msg[6][i]} ${time}
+                                                                        </span>
+                                                                        <span class="discuss-read">
+                                                                            <i class="layui-icon layui-icon-dialogue">${response.msg[4][i]}</i>
+                                                                            <i class="layui-icon layui-icon-read">${response.msg[3][i]}</i>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p class="article-content">${response.msg[1][i]}</p>
+                                                                 </div>
+                                                                </div>
+                                                            </div>
+                                                    </div>`)
+                    }
+                    bindArticleListener();
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_settop_commmend",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    console.log(response.msg);
+                    let time;
+                    for (let i = 0; i < response.msg.length; i++) {
+                        $('#recommend-settop').append(` <li><img class="pic-settop"
+                             src="${response.msg[i]['pic']}"
+                             alt="" srcset="" data-title="${response.msg[i]['title']}"></li>`)
+                    }
+                    $('.pic-settop').click(function () {
+                        location.href="article?name="+escape($(this).data('title'));
+
+                    });
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_article_menber_reply_count",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    // console.log(response);
+                    $("#member-count").append(response.msg[1]);
+                    $("#article-count").append(response.msg[0]);
+                    $("#reply-count").append(response.msg[2]);
+
+                    return response;
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_hot_command",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    console.log(response)
+                    let time;
+                    for (let i=0;i<response.msg.length;i++){
+                        time=timestampToTime(response.msg[i]['time'])
+                        $('.recommend-container').append(`<div class="recommend-item">
+                                                    <a class="hot-article" >${response.msg[i]['title']}</a>
+                                                    <div>${time}</div>
+                                                </div>`)
+                    }
+                    $('.hot-article').click(function () {
+                        location.href="article?name="+escape($(this).html());
+                    })
+                    return response;
+                }
+            });
+
+        }).then((response) => {
+            $.ajax({
+                url: "/blog/public/index/Content/get_article_list",
+                type: "get",
+                success: (response) => {
+                    response = JSON.parse(response);
+                    // console.log(response);
+                    // 一般直接写在一个js文件中
+                    layui.use(['layer', 'form', 'carousel', 'element', 'jquery'], function () {
+                        let layer = layui.layer
+                            , element = layui.element
+                            , carousel = layui.carousel
+                            , $ = layui.$;
+
+                        carousel.render({
+                            interval: '2000',
+                            elem: '#carousel'
+                            , width: '100%' //设置容器宽度
+                            , arrow: 'hover' //始终显示箭头
+                            , anim: 'fade' //切换动画方式
+                        });
+                    });
+                    return response;
+                }
+            });
+
+        });
+
+    }
+    $(window).on("load",()=>{
+        $.ajax({
+            url: "/__PUBLIC__/index/member/getName",
+            type: "get",
+            success:  (response)=>{
+                response = JSON.parse(response);
+                console.log(response.code)
+                // 获取失败则跳转dao登录页面
+                if (response.code!== "0000") {
+                    console.log(response.msg)
+                    // location.href = "login.html";
+                    return;
+                }
+                // 获取成功则输出昵称
+                $("#user-name").html(response.msg);
+                console.log(response.msg)
+                load();
+            }
+
+        });
+
+    })
+
+</script>
+
+</body>
+
+</html>
+    
