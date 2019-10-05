@@ -52,7 +52,7 @@ class Comment extends Auth{
         $comment=new CommentModel();
         $comment->time=time();
         $comment->content=input('post.commentHtml');
-        $comment->uid=Session::get('id');
+        $comment->uid=Session::get('userid');
         $fid=$comment->query('select id from tp_content where title="'.input('post.article').'"');
         $comment->fid=$fid[0]['id'];
         $comment->save();

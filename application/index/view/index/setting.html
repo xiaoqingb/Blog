@@ -84,20 +84,23 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <div class="layui-input-block">
+
                                     <button class="layui-btn"  id="btn-1">确认修改</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="layui-tab-item">
-                        <button type="button" class="layui-btn" id="test1">
-                            <i class="layui-icon">&#xe67c;</i>上传图片
-                        </button>
-                        <span>建议尺寸200*200，支持jpg,png,gif,最大不能超过5MB。</span>
-                        <p> &#8195; </p>
                         <div id="pic-frame">
-                            <img id="user-head" src="https://p.ssl.qhimg.com/dm/633_417_/t01ff10b83ae9354836.png" alt="">
+                            <img id="user-head" src="" alt="">
+                        </div>
+                            <button class="layui-btn layui-btn-sm"  id="upload_img">
+                                <i class="layui-icon">&#xe67c;</i>上传图片
+                            </button>
+                            <span>建议尺寸200*200，支持JPG,PNG,GIF,最大不能超过5MB.</span>
+                            <input type="hidden" name="img" value="">
+                        <div class="layui-form-item">
+                                <button class="layui-btn" id="btn-2">确认修改</button>
                         </div>
                     </div>
                     <div class="layui-tab-item layui-form-pane">
@@ -121,7 +124,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" id="btn-2">确认修改</button>
+                                <button class="layui-btn" id="btn-3">确认修改</button>
                             </div>
                         </div>
                     </div>
@@ -174,10 +177,26 @@
                         $('#desc').val(response.msg[0]['description']);
                     }
                 })
-                layui.use(['layer', 'form', 'element', 'jquery'], function () {
+                layui.use(['layer', 'form', 'upload','element', 'jquery'], function () {
                     let layer = layui.layer
                         , form = layui.form
                         , element = layui.element
+                        , $ = layui.jquery;
+                    var upload = layui.upload;
+                    //执行实例
+                    var uploadInst = upload.render({
+                        elem: '#upload_img' //绑定元素
+                        ,url: '/__PUBLIC__/index/Member/upload_file' //上传接口
+                        ,accept:'images'
+                        ,done: function(response){
+                            //上传完毕回调
+                            $('#user-head').attr('src',response.msg);
+                            console.log(response.msg)
+                        }
+                        ,error: function(response){
+                            //请求异常回调
+                        }
+                    });
                 });
             }
         });
@@ -190,7 +209,7 @@
         location.href='my_comment'
     })
     $('#my-article').click(function () {
-        location.href='my_article'
+        location.href='my-article'
     })
     $('#btn-1').click(function(){
         // console.log($('#nick-name').val(),$('#desc').val(),$('#user-qq').val(),$('#user-home').val())
@@ -210,7 +229,10 @@
             }
         })
     });
-    $('#btn-2').click(function () {
+    $('#btn-2').click(function(){
+        // url
+    })
+    $('#btn-3').click(function () {
         if (!$('#new-password').val()){
             layer.msg('密码不能为空');
             return;
@@ -233,7 +255,7 @@
                 console.log(response.msg)
             }
         })
-    })
+    });
 
 </script>
 </body>

@@ -130,6 +130,9 @@ class Content extends Auth{
         $pattern ='<img.*?src="(.*?)">';
         $html =input('post.articleHtml') ;
         preg_match($pattern,$html,$matches);
+        if (!$matches[1]){
+            $matches[1]='C:\xampp\htdocs\blog\public\static\uploads\20170401\00.jpg';
+        }
         $content->pic=$matches[1];
         $content->save();
         return json_encode(
@@ -142,11 +145,38 @@ class Content extends Auth{
 //  显示指定文章
     public function show_article(){
         $content=new ContentModel();
-        $msg=$content->where('title',input('get.title'))->column('content');
+        $msg1=$content->query('select content from tp_content where title="'.input('get.title').'"');
         return json_encode(
             [
                 'code'=>"010",
-                'msg'=> $msg,
+                'msg'=> $msg1,
+            ]
+        );
+    }
+
+    public function edit_article(){
+        $content=new ContentModel();
+        $contentId=$content->query('select id from tp_content where title="'.input('post.oldTitle').'"');
+//        $result=$content->query('update tp_content set content="'.input('post.articleHtml').'" where id="'..'"');
+        $result=$content->table('tp_content')->where('id', $contentId[0]['id'])->update(['content' => input('post.articleHtml')]);
+//        $result=$content->query('update tp_content set title="'.input('post.newTitle').'" where title="'.input('post.oldTitle').'"');
+        $result=$content->table('tp_content')->where('id', $contentId[0]['id'])->update(['title' => input('post.newTitle')]);
+        $pattern ='<img.*?src="(.*?)">';
+        $html =input('post.articleHtml') ;
+        preg_match($pattern,$html,$matches);
+        if ($matches===[]){
+            $matches[1]='static\uploads\20170401\00.jpg';
+        }
+//        $result=$content->query('update tp_content set pic="'.$matches[1].'" where id="'.$contentId.'"');
+        $result=$content->table('tp_content')->where('id', $contentId[0]['id'])->update(['pic' => $matches[1]]);
+//        $result=$content->query('update tp_content set description="'.input('post.articleText').'" where id="'.$contentId.'"');
+        $result=$content->table('tp_content')->where('id', $contentId[0]['id'])->update(['description' => input('post.articleText')]);
+        //TODO: 这里用原生query更新数据表tp_content里的content内容时，会报错，update语句不能含有html内容，花费了我好多时间0.0
+
+        return json_encode(
+            [
+                'code'=>"0000",
+                'msg'=>$result ,
             ]
         );
     }
@@ -194,6 +224,17 @@ class Content extends Auth{
             [
                 'code'=>'0000',
                 'msg'=>$content,
+            ]
+        );
+    }
+
+    public function get_my_article(){
+        $content=new ContentModel();
+        $content=$content->query('select title,time from tp_content where uid="'.Session::get('userid').'"');
+        return json_encode(
+            [
+                'code'=>'0000',
+                'msg'=>$content
             ]
         );
     }

@@ -235,6 +235,7 @@ class Member extends Auth
             ]
         );
     }
+
     public function change_password(){
         $member = new MemberModel();
         $newPassword = input('post.newPassword');
@@ -256,4 +257,41 @@ class Member extends Auth
             ]
         );
     }
+
+    public function upload_file()
+    {
+        $file = request()->file('file'); // 获取上传的文件
+        if ($file==null) {
+            return (json_encode(
+                [
+                    'code'=>'0001',
+                    'msg'=>'未上传图片',
+                ]));
+        }
+        // 获取文件后缀
+        $temp = explode(".", $_FILES["file"]["name"]);
+        $extension = end($temp);
+        // 判断文件是否合法
+        if(!in_array($extension, array("gif","jpeg","jpg","png"))){
+            return (json_encode(
+                [
+                    'code'=>"0002",
+                    'msg'=>'上传图片不合法',
+                ]));
+        }
+
+        $info = $file->move(ROOT_PATH.'public'.DS.'uploads/userhead'); // 移动文件到指定目录 没有则创建
+        $name_path =str_replace('\\',"/",$info->getSaveName());
+        $img = '/blog/public/uploads/userhead/'.$name_path;
+        $member=new MemberModel();
+        $userid=Session::get('userid');
+        $member->query('update tp_member set userhead ="'.$img.'" where userid="'.$userid.'"');
+        return (json_encode(
+            [
+                'code'=>'0000',
+                'msg'=>$img,
+            ]));
+    }
+
+
 }

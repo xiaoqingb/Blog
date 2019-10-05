@@ -20,7 +20,7 @@
 
             <div id="nav-header-right">
                 <li class="layui-nav-item">
-                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                    <a href="setting">个人信息<span class="layui-badge-dot"></span></a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="" id="user-name">
@@ -39,86 +39,23 @@
     <div id="setting-frame">
         <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left-nav">
             <li class="layui-nav-item "><a id="basic-setting-btn" href="javascript:;">基本设置</a></li>
-            <li class="layui-nav-item layui-this"><a id="my-comment" href="javascript:;">我的评论</a></li>
+            <li class="layui-nav-item "><a id="my-comment" href="javascript:;">我的评论</a></li>
             <li class="layui-nav-item"><a id="comment-to-me" href="javascript:;">评论我的</a></li>
-            <li class="layui-nav-item"><a id="my-article" href="javascript:;">我的内容</a></li>
+            <li class="layui-nav-item layui-this"><a id="my-article" href="javascript:;">我的内容</a></li>
         </ul>
         <div class="right-setting-frame">
             <div class="layui-tab layui-show" id="base-setting">
                 <ul class="layui-tab-title tab-title">
-                    <li class="layui-this">基本信息</li>
-                    <li>修改头像</li>
-                    <li>修改密码</li>
+                    <li class="layui-this ">我的文章</li>
+                    <li>我的评论</li>
+                    <li></li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show " >
-                        <form class="layui-form layui-form-pane" action="">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">昵称</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">邮箱</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">QQ</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="text" required lay-verify="required" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">城市</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">签名</label>
-                                <div class="layui-input-block">
-                                    <textarea name="desc" class="layui-textarea"></textarea>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="layui-tab-item layui-show " id="my-article-list" >
                     </div>
                     <div class="layui-tab-item">
-                        <button type="button" class="layui-btn" id="test1">
-                            <i class="layui-icon">&#xe67c;</i>上传图片
-                        </button>
-                        <span>建议尺寸200*200，支持jpg,png,gif,最大不能超过5MB。</span>
-                        <p> &#8195; </p>
-                        <div id="pic-frame">
-                            <img id="upload-pic" src="https://p.ssl.qhimg.com/dm/633_417_/t01ff10b83ae9354836.png" alt="">
-                        </div>
                     </div>
                     <div class="layui-tab-item layui-form-pane">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">新密码</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">重复密码</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="text" required lay-verify="required"  autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -141,6 +78,24 @@
 <script src="/__PUBLIC__/static/layui/layui.js"></script>
 <script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
 <script>
+    function timestampToTime(timestamp) {
+        let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        D = change(date.getDate()) + ' ';
+        h = change(date.getHours()) + ':';
+        m = change(date.getMinutes()) + ':';
+        s = change(date.getSeconds());
+        return Y + M + D + h + m + s;
+    }
+
+    function change(t) {
+        if (t < 10) {
+            return "0" + t;
+        } else {
+            return t;
+        }
+    }
     $(window).on("load",()=>{
         $.ajax({
             url: "/__PUBLIC__/index/member/getName",
@@ -156,18 +111,26 @@
                 $("#user-name").html(response.msg);
 
                 $.ajax({
-                    url:'/__PUBLIC__/public/index/member/get_basic_msg',
-                    type:'get',
+                    url:"/blog/public/index/Content/get_my_article",
+                    type:"get",
                     success:function (response) {
-                        response=JSON.parse(response);
-                        console.log(response);
-                        $.ajax({
-                            url:'/__PUBLIC__/public/index/member/get_basic_msg',
-                            type:'get',
-                            success:function (response) {
-                                response=JSON.parse(response);
-                                console.log(response);
-                            }
+                        response=JSON.parse(response)
+                        console.log(response.msg)
+                        let recentTime;
+                        for (let i = 0; i < response.msg.length; i++) {
+                            console.log("ASdasd");
+                            recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
+                            $("#my-article-list").append(`
+                            <div class="recent-content-item">
+                                <div><span class="my-article-choice">${response.msg[i]['title']}  </span><span class="editor"> 编辑</span></div>
+                                <p id="recent-time">${recentTime}</p>
+                            </div>`)
+                        }
+                        $(".my-article-choice").click(function () {
+                            location.href="article?name="+escape($(this).html());
+                        })
+                        $('.editor').click(function () {
+                            location.href="submit?name="+escape($(this).prev().html());
                         })
                     }
                 })
