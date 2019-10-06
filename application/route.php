@@ -26,4 +26,5 @@ return [
     'my_comment'=>'index/index/my_comment',
     'comment_to_me'=>'index/index/comment_to_me',
     'my-article'=>'index/index/my_article',
+    'my_article'=>'index/index/my_article',
 ];

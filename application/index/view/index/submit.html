@@ -20,15 +20,14 @@
                 
                 <div id="nav-header-right">
                     <li class="layui-nav-item">
-                        <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                        <a href="index">主页<span class="layui-badge-dot"></span></a>
                     </li>
                     <li class="layui-nav-item">
                         <a href="" id="user-name">
                         </a>
-                        <dl class="layui-nav-child">
+                        <dl class="layui-nav-child login" >
                             <dd><a href="setting">个人信息</a></dd>
-                            <dd><a href="javascript:;">登出</a></dd>
-                        </dl>
+                            <dd><a href="javascript:;" id="logout-btn">登出</a></dd>                        </dl>
                     </li>
                 </div>
             </ul>
@@ -160,7 +159,7 @@
                             layer.msg('修改成功!', {icon: 1, time: 1000});
                             console.log(response)
                             setTimeout(function () {
-                                location.href="submit?name="+escape(articleTitle);
+                                location.href="my_article";
                             },1000);
                         },
                         error: function (response) {
@@ -198,6 +197,15 @@
             });
         })
     }
+    $('#logout-btn').click(function () {
+        $.ajax({
+            url:'/__PUBLIC__/index/member/logout',
+            type:'post',
+            success:function () {
+                location.href="login"
+            }
+        })
+    })
 </script>
 </body>
 </html>

@@ -24,6 +24,26 @@ class Comment extends Auth{
             ]
         );
     }
+    public function get_comment_for_other(){
+        $comment=new CommentModel();
+        $comment=$comment->query('select a.title,b.content,b.time from tp_content a join tp_comment b where b.uid="'.Session::get('userid').'" and b.fid=a.id');
+        return json_encode(
+            [
+                'code'=>'0000',
+                'msg'=>$comment
+            ]
+        );
+    }
+    public function get_comment_for_me(){
+        $comment=new CommentModel();
+        $comment=$comment->query('select  a.title,b.content,b.time,c.username from tp_content a join tp_comment b join tp_member c where a.uid="'.Session::get('userid').'" and a.id=b.fid and b.uid=c.userid');
+        return json_encode(
+            [
+                'code'=>'0000',
+                'msg'=>$comment
+            ]
+        );
+    }
     public function uploads()
     {
         $file = request()->file('file');

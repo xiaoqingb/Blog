@@ -59,7 +59,6 @@ class Content extends Auth{
                 [
                     'code'=>"0000",
                     'msg'=>[$title,$description,$pic,$view,$reply,$id,$nameList,$time],
-                    'keyword'=>$keyword,
                 ]
             );
         }

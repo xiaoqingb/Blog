@@ -211,7 +211,7 @@ class Member extends Auth
             );
         }
         $userQq = input('post.userQq');
-        $userHome = input('post.$userHome');
+        $userHome = input('post.userHome');
         $description = input('post.description');
         if ($nickName) {
             $result=$member->table('tp_member')->where('userid', Session::get('userid'))->update(['username' => $nickName]);

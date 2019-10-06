@@ -25,10 +25,9 @@
                 <li class="layui-nav-item">
                     <a href="" id="user-name">
                     </a>
-                    <dl class="layui-nav-child">
+                    <dl class="layui-nav-child login" >
                         <dd><a href="setting.html">个人信息</a></dd>
-                        <dd><a href="javascript:;">登出</a></dd>
-                    </dl>
+                        <dd><a href="javascript:;" id="logout-btn">登出</a></dd>                    </dl>
                 </li>
             </div>
         </ul>
@@ -38,9 +37,7 @@
 <div id="page-middle">
     <div id="setting-frame">
         <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left-nav">
-            <li class="layui-nav-item "><a id="basic-setting-btn" href="javascript:;">基本设置</a></li>
-            <li class="layui-nav-item "><a id="my-comment" href="javascript:;">我的评论</a></li>
-            <li class="layui-nav-item"><a id="comment-to-me" href="javascript:;">评论我的</a></li>
+            <li class="layui-nav-item "><a id="setting" href="javascript:;">基本设置</a></li>
             <li class="layui-nav-item layui-this"><a id="my-article" href="javascript:;">我的内容</a></li>
         </ul>
         <div class="right-setting-frame">
@@ -48,14 +45,17 @@
                 <ul class="layui-tab-title tab-title">
                     <li class="layui-this ">我的文章</li>
                     <li>我的评论</li>
-                    <li></li>
+                    <li>评论我的</li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show " id="my-article-list" >
+                    <div class="layui-tab-item layui-show "  >
+                        <div id="my-article-list"></div>
                     </div>
-                    <div class="layui-tab-item">
+                    <div class="layui-tab-item item2">
+                        <div id="comment-for-other"></div>
                     </div>
-                    <div class="layui-tab-item layui-form-pane">
+                    <div class="layui-tab-item item3" >
+                        <id id="comment-for-me"></id>
                     </div>
                 </div>
             </div>
@@ -134,6 +134,47 @@
                         })
                     }
                 })
+                $.ajax({
+                    url:"/__PUBLIC__/index/comment/get_comment_for_other",
+                    type:'get',
+                    success:function (response) {
+                        response=JSON.parse(response);
+                        console.log(response.msg)
+                        let recentTime;
+                        for (let i = 0; i < response.msg.length; i++) {
+                            let content=response.msg[i]['content'].trim();
+                            recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
+                            console.log(recentTime);
+                            $("#comment-for-other").append(`
+                            <div class="recent-comment-item">
+                                <span>${recentTime}</span> 在
+                                <span class="article-title">${response.msg[i]['title']}</span>  中评论:
+                                ${content}
+                            </div>`)
+                        }
+                    }
+                })
+                $.ajax({
+                    url:"/__PUBLIC__/index/comment/get_comment_for_me",
+                    type:'get',
+                    success:function (response) {
+                        response=JSON.parse(response);
+                        console.log(response.msg)
+                        let recentTime;
+                        for (let i = 0; i < response.msg.length; i++) {
+                            let content=response.msg[i]['content'].trim();
+                            recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
+                            console.log(recentTime);
+                            $("#comment-for-me").append(`
+                            <div class="recent-comment-item">
+                                <span>${response.msg[i]['username']}</>
+                                <span>${recentTime}</span> 在
+                                <span class="article-title">${response.msg[i]['title']}</span>  中评论:
+                                ${content}
+                            </div>`)
+                        }
+                    }
+                })
 
             }
         });
@@ -149,7 +190,15 @@
         location.href='setting'
     })
 
-
+    $('#logout-btn').click(function () {
+        $.ajax({
+            url:'/__PUBLIC__/index/member/logout',
+            type:'post',
+            success:function () {
+                location.href="login"
+            }
+        })
+    })
     layui.use(['layer', 'form', 'element', 'jquery'], function () {
         let layer = layui.layer
             , form = layui.form

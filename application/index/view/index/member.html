@@ -20,14 +20,13 @@
                 
                 <div id="nav-header-right">
                     <li class="layui-nav-item">
-                        <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                        <a href="index">主页<span class="layui-badge-dot"></span></a>
                     </li>
-                    <li class="layui-nav-item" id="user-name">
-                        <dl class="layui-nav-child">
+                    <li class="layui-nav-item" >
+                        <a href=""id="user-name"></a>
+                        <dl class="layui-nav-child login" >
                             <dd><a href="setting.html">个人信息</a></dd>
-                            
-                            <dd><a href="javascript:;">退了</a></dd>
-                        </dl>
+                            <dd><a href="javascript:;" id="logout-btn">登出</a></dd>                        </dl>
                     </li>
                 </div>
             </ul>
@@ -50,7 +49,7 @@
 <script>
     $(window).on("load",  ()=>{
         $.ajax({
-            url: "/__PUBLIC__/index/member/get_name",
+            url: "/__PUBLIC__/index/member/getName",
             type: "get",
             success:  (response)=>{
                 response = JSON.parse(response);
@@ -166,20 +165,36 @@
                         console.log(response);
                         let recentTime;
                         for (let i = 0; i < response.msg.length; i++) {
+                            let content=response.msg[i]['content'].trim();
                             recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
                             console.log(recentTime);
                             $("#recent-comment").append(`
                             <div class="recent-comment-item">
                                 <span>${recentTime}</span> 在
-                                <span>${response.msg[i]['title']}</span>  中回答: 
-                                ${response.msg[i]['content']}
+                                <span class="article-title">${response.msg[i]['title']}</span>  中回答:
+                                ${content }
                             </div>`)
                         }
+                        layui.use(['layer', 'form', 'element', 'jquery'], function () {
+                            let layer = layui.layer
+                                , form = layui.form
+                                , element = layui.element
+                        });
+
                     }
+
                 })
             }
-        });   
-        
+        });
+    $('#logout-btn').click(function () {
+        $.ajax({
+            url:'/__PUBLIC__/index/member/logout',
+            type:'post',
+            success:function () {
+                location.href="login"
+            }
+        })
+    })
     </script>
 </body>
 </html>

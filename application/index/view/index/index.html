@@ -28,9 +28,9 @@
                 <li class="layui-nav-item">
                     <a href="" id="user-name">
                     </a>
-                    <dl class="layui-nav-child">
+                    <dl class="layui-nav-child login" >
                         <dd><a href="setting.html">个人信息</a></dd>
-                        <dd><a href="javascript:;">登出</a></dd>
+                        <dd><a href="javascript:;" id="logout-btn">登出</a></dd>
                     </dl>
                 </li>
             </div>
@@ -159,6 +159,7 @@
 <script type="text/javascript" src="/__PUBLIC__/static/js/wangEditor.js"></script>
 
 <script>
+
     function load() {
         function timestampToTime(timestamp) {
             let date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -264,6 +265,15 @@
                 shadeClose: true,
                 content: '<img  src="https://i.loli.net/2019/09/28/KTjfQbFnRZzioMc.png">'
             });
+        })
+        $('#logout-btn').click(function () {
+            $.ajax({
+                url:'/__PUBLIC__/index/member/logout',
+                type:'post',
+                success:function () {
+                    location.href="login"
+                }
+            })
         })
         function bindArticleListener() {
             $(".article-choice").click(function () {
@@ -496,10 +506,9 @@
                 console.log(response.msg)
                 load();
             }
-
         });
-
     })
+
 
 </script>
 

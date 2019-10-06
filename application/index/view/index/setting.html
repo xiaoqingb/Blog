@@ -25,10 +25,9 @@
                 <li class="layui-nav-item">
                     <a href="" id="user-name">
                     </a>
-                    <dl class="layui-nav-child">
+                    <dl class="layui-nav-child login" >
                         <dd><a href="setting.html">个人信息</a></dd>
-                        <dd><a href="javascript:;">登出</a></dd>
-                    </dl>
+                        <dd><a href="javascript:;" id="logout-btn">登出</a></dd>                    </dl>
                 </li>
             </div>
         </ul>
@@ -39,8 +38,6 @@
     <div id="setting-frame">
         <ul class="layui-nav layui-nav-tree" lay-filter="test" id="left-nav">
             <li class="layui-nav-item layui-this"><a id="basic-setting-btn" href="javascript:;">基本设置</a></li>
-            <li class="layui-nav-item"><a id="my-comment" href="javascript:;">我的评论</a></li>
-            <li class="layui-nav-item"><a id="comment-to-me" href="javascript:;">评论我的</a></li>
             <li class="layui-nav-item"><a id="my-article" href="javascript:;">我的内容</a></li>
         </ul>
         <div class="right-setting-frame">
@@ -211,6 +208,15 @@
     $('#my-article').click(function () {
         location.href='my-article'
     })
+    $('#logout-btn').click(function () {
+        $.ajax({
+            url:'/__PUBLIC__/index/member/logout',
+            type:'post',
+            success:function () {
+                location.href="login"
+            }
+        })
+    })
     $('#btn-1').click(function(){
         // console.log($('#nick-name').val(),$('#desc').val(),$('#user-qq').val(),$('#user-home').val())
         $.ajax({
@@ -225,6 +231,7 @@
             },
             success:function (response) {
                 response=JSON.parse(response);
+                console.log(response.msg)
                 layer.msg(response.msg);
             }
         })
