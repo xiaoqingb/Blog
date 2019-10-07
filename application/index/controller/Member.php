@@ -12,7 +12,7 @@ class Member extends Auth
     protected $beforeActionList = [
         'isAuthed' => ['only' => 'getName']
     ];
-
+//    获取会员名字
     public function getName()
     {
         $this->isAuthed();
@@ -23,7 +23,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    获取会员列表
     public function get_Member_list()
     {
         $content = new MemberModel();
@@ -36,7 +36,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    查看会员信息
     public function get_member_msg()
     {
         $content = new MemberModel();
@@ -55,7 +55,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    注册登录注销
     public function regist()
     {
         $email = input('post.email');
@@ -94,7 +94,6 @@ class Member extends Auth
             ]
         );
     }
-
     public function login()
     {
         $email = input('post.email', '');
@@ -161,7 +160,6 @@ class Member extends Auth
             ]
         );
     }
-
     public function logout()
     {
         Session::clear();
@@ -173,7 +171,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    获取基础信息
     public function get_basic_msg()
     {
         $member = new MemberModel();
@@ -185,7 +183,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    修改基础信息
     public function change_basic_msg()
     {
         $member = new MemberModel();
@@ -235,7 +233,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    修改密码
     public function change_password(){
         $member = new MemberModel();
         $newPassword = input('post.newPassword');
@@ -257,7 +255,7 @@ class Member extends Auth
             ]
         );
     }
-
+//    上传头像用的方法
     public function upload_file()
     {
         $file = request()->file('file'); // 获取上传的文件

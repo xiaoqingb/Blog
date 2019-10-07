@@ -7,8 +7,9 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
 
     <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
-    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
-    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <link href="/__PUBLIC__/static/styles/index.css" rel="stylesheet">
+<!--    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">-->
+<!--    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>-->
     <title>个人信息</title>
 </head>
 <body>
@@ -199,12 +200,8 @@
         });
     })
 
-    $('#comment-to-me').click(function () {
-        location.href='comment_to_me'
-    })
-    $('#my-comment').click(function () {
-        location.href='my_comment'
-    })
+
+    // setting里左边的导航栏两个模块分成了两个页面
     $('#my-article').click(function () {
         location.href='my-article'
     })
@@ -217,6 +214,9 @@
             }
         })
     })
+    // btn1是提交基本信息修改，
+    // btn2是提交头像修改，
+    // btn3是提交密码修改
     $('#btn-1').click(function(){
         // console.log($('#nick-name').val(),$('#desc').val(),$('#user-qq').val(),$('#user-home').val())
         $.ajax({

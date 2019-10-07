@@ -7,9 +7,10 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
     
     <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
-    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
-    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
-    <title>文章页面</title>
+    <link href="/__PUBLIC__/static/styles/index.css" rel="stylesheet">
+<!--    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">-->
+<!--    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>-->
+<!--    <title>文章页面</title>-->
 </head>
 <body>
     <div id="nav-header-bg">
@@ -91,20 +92,6 @@
                 <div class="right-bottom">
                     <p>热门推荐</p>
                     <div class="recommend-container">
-                        <div class="recommend-item">
-                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
-                            <span>2017-12-23 07:05:37</span>
-                        </div>
-                        <div class="recommend-item">
-                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
-                            <span>2017-12-23 07:05:37</span>
-                        </div>
-                        <div class="recommend-item">
-                            <a href="">利用jquery.qrcode.js生成二维码和logo居中的图片 js生成二维码</a>
-                            <span>2017-12-23 07:05:37</span>
-                        </div>
-                        
-                        
                     </div>
                 </div>
                 <div class="right-bottom-extra">
@@ -314,7 +301,8 @@
              },
              success: (response) => {
                  response = JSON.parse(response);
-                 // console.log(response.msg[0]);
+                 console.log(response);
+                 $('h3').remove();
                  $('#left-container').append(`<div id="article-bg">${response.msg[0]['content']}</div>`);
                  $('#left-container').append(`
                                         <span class="edit-label" id="comment-submit-label">发表评论</span>
@@ -372,7 +360,6 @@
                              console.log(response);
                              layer.msg('添加评论成功!', {icon: 1, time: 1000});
                             $('#article-comment-list').empty();
-
                              getComment();
                          },
                          error: function (response) {
@@ -384,7 +371,6 @@
              }
          });
      }
-
      getArticle();
      ajaxDemo().then((response) => {
          $.ajax({
@@ -411,8 +397,42 @@
                          , anim: 'fade' //切换动画方式
                      });
                  });
-                 return response;
              }
+         }).then((response) => {
+             $.ajax({
+                 url: "/__PUBLIC__/index/Content/get_hot_command",
+                 type: "get",
+                 success: (response) => {
+                     response = JSON.parse(response);
+                     console.log(response)
+                     let time;
+                     for (let i=0;i<response.msg.length;i++){
+                         time=timestampToTime(response.msg[i]['time'])
+                         $('.recommend-container').append(`<div class="recommend-item">
+                                                    <a class="hot-article" >${response.msg[i]['title']}</a>
+                                                    <div>${time}</div>
+                                                </div>`)
+                     }
+                     $('.hot-article').click(function () {
+                         location.href="article?name="+escape($(this).html());
+                     })
+                     layui.use(['layer', 'form', 'carousel', 'element', 'jquery'], function () {
+                         let layer = layui.layer
+                             , element = layui.element
+                             , carousel = layui.carousel
+                             , $ = layui.$;
+
+                         carousel.render({
+                             interval: '2000',
+                             elem: '#carousel'
+                             , width: '100%' //设置容器宽度
+                             , arrow: 'hover' //始终显示箭头
+                             , anim: 'fade' //切换动画方式
+                         });
+                     });
+                     return response;
+                 }
+             });
          });
 
      });

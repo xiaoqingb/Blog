@@ -11,6 +11,7 @@ class Comment extends Auth{
     protected $beforeActionList = [
 //        'isAuthed' => ['only' => 'get_name']
     ];
+//    获取最近评论
     public function get_recent_comment(){
         $comment=new CommentModel();
         $memberName=input('get.memberName');
@@ -24,6 +25,7 @@ class Comment extends Auth{
             ]
         );
     }
+//    获取对他人的评论
     public function get_comment_for_other(){
         $comment=new CommentModel();
         $comment=$comment->query('select a.title,b.content,b.time from tp_content a join tp_comment b where b.uid="'.Session::get('userid').'" and b.fid=a.id');
@@ -34,6 +36,7 @@ class Comment extends Auth{
             ]
         );
     }
+//    获取他人对我的评论
     public function get_comment_for_me(){
         $comment=new CommentModel();
         $comment=$comment->query('select  a.title,b.content,b.time,c.username from tp_content a join tp_comment b join tp_member c where a.uid="'.Session::get('userid').'" and a.id=b.fid and b.uid=c.userid');
@@ -44,6 +47,7 @@ class Comment extends Auth{
             ]
         );
     }
+//    评论上传图片接口
     public function uploads()
     {
         $file = request()->file('file');
@@ -68,6 +72,7 @@ class Comment extends Auth{
         }
         exit(json_encode($result));
     }
+//    提交评论
     public function submit_comment(){
         $comment=new CommentModel();
         $comment->time=time();
@@ -76,13 +81,19 @@ class Comment extends Auth{
         $fid=$comment->query('select id from tp_content where title="'.input('post.article').'"');
         $comment->fid=$fid[0]['id'];
         $comment->save();
+        $reply=$comment->query('select `reply` from tp_content where title="'.input('post.article').'"');
+        $reply=(int) $reply[0]['reply'] +1;
+        $result=$comment->table('tp_content')->where('title', input('get.article'))->update(['reply' => $reply]);
+
         return json_encode(
             [
                 'code'=>"0000",
-                'msg'=>'提交成功'
+                'msg'=>'提交成功',
+                'reply'=>$reply
             ]
         );
     }
+//   获取评论列表
     public function get_comment_list(){
         $comment=new commentModel();
         $titleName=input('get.title');

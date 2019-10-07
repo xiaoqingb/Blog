@@ -7,8 +7,9 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
 
     <link rel="stylesheet" href="/__PUBLIC__/static/layui/css/layui.css">
-    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">
-    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>
+    <link href="/__PUBLIC__/static/styles/index.css" rel="stylesheet">
+<!--    <link rel="stylesheet/less" href="/__PUBLIC__/static/css/index.less">-->
+<!--    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.js"></script>-->
     <title>个人信息</title>
 </head>
 <body>
@@ -20,7 +21,7 @@
 
             <div id="nav-header-right">
                 <li class="layui-nav-item">
-                    <a href="setting">个人信息<span class="layui-badge-dot"></span></a>
+                    <a href="index">主页<span class="layui-badge-dot"></span></a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="" id="user-name">
@@ -115,10 +116,10 @@
                     type:"get",
                     success:function (response) {
                         response=JSON.parse(response)
-                        console.log(response.msg)
+                        // console.log(response.msg)
                         let recentTime;
                         for (let i = 0; i < response.msg.length; i++) {
-                            console.log("ASdasd");
+                            // console.log("ASdasd");
                             recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
                             $("#my-article-list").append(`
                             <div class="recent-content-item">
@@ -139,12 +140,12 @@
                     type:'get',
                     success:function (response) {
                         response=JSON.parse(response);
-                        console.log(response.msg)
+                        // console.log(response.msg)
                         let recentTime;
                         for (let i = 0; i < response.msg.length; i++) {
                             let content=response.msg[i]['content'].trim();
                             recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
-                            console.log(recentTime);
+                            // console.log(recentTime);
                             $("#comment-for-other").append(`
                             <div class="recent-comment-item">
                                 <span>${recentTime}</span> 在
@@ -159,12 +160,12 @@
                     type:'get',
                     success:function (response) {
                         response=JSON.parse(response);
-                        console.log(response.msg)
+                        // console.log(response.msg)
                         let recentTime;
                         for (let i = 0; i < response.msg.length; i++) {
                             let content=response.msg[i]['content'].trim();
                             recentTime=timestampToTime(response.msg[i]['time']).slice(0, 10);
-                            console.log(recentTime);
+                            // console.log(recentTime);
                             $("#comment-for-me").append(`
                             <div class="recent-comment-item">
                                 <span>${response.msg[i]['username']}</>

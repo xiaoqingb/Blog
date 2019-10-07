@@ -94,6 +94,7 @@ class Content extends Auth{
         $menberId=$menberId[0]['userid'];
         $title=$content->orderRaw('time desc')->where('uid',$menberId)->column('title');
         $time=$content->orderRaw('time desc')->where('uid',$menberId)->column('time');
+
         return json_encode(
             [
                 'code'=>"010",
@@ -117,7 +118,7 @@ class Content extends Auth{
             ]
         );
     }
-//  提交稿子
+//    提交稿子
     public function submit_article(){
         $content=new ContentModel();
         $content->content=input('post.articleHtml');
@@ -130,7 +131,7 @@ class Content extends Auth{
         $html =input('post.articleHtml') ;
         preg_match($pattern,$html,$matches);
         if (!$matches[1]){
-            $matches[1]='C:\xampp\htdocs\blog\public\static\uploads\20170401\00.jpg';
+            $matches[1]='\blog\public\static\uploads\20170401\00.jpg';
         }
         $content->pic=$matches[1];
         $content->save();
@@ -141,9 +142,12 @@ class Content extends Auth{
             ]
         );
     }
-//  显示指定文章
+//    显示指定文章
     public function show_article(){
         $content=new ContentModel();
+        $view=$content->query('select `view` from tp_content where title="'.input('get.title').'"');
+        $view=(int) $view[0]['view'] +1;
+        $result=$content->table('tp_content')->where('title', input('get.title'))->update(['view' => $view]);
         $msg1=$content->query('select content from tp_content where title="'.input('get.title').'"');
         return json_encode(
             [
@@ -152,7 +156,7 @@ class Content extends Auth{
             ]
         );
     }
-
+//    编辑文章
     public function edit_article(){
         $content=new ContentModel();
         $contentId=$content->query('select id from tp_content where title="'.input('post.oldTitle').'"');
@@ -204,7 +208,7 @@ class Content extends Auth{
         }
         exit(json_encode($result));
     }
-
+//    获取热门推荐
     public  function get_hot_command(){
         $content= new ContentModel();
         $content=$content->query('select title , time  from tp_content where hot=1');
@@ -215,7 +219,7 @@ class Content extends Auth{
             ]
         );
     }
-
+//    获取置顶推荐
     public function get_settop_commmend(){
         $content=new ContentModel();
         $content=$content->query('select pic,title from tp_content where settop=1');
@@ -226,7 +230,7 @@ class Content extends Auth{
             ]
         );
     }
-
+//    获取我的文章内容
     public function get_my_article(){
         $content=new ContentModel();
         $content=$content->query('select title,time from tp_content where uid="'.Session::get('userid').'"');
