@@ -106,7 +106,8 @@ class Content extends Auth{
     public function get_article_menber_reply_count(){
         $content=new ContentModel();
         $articleCount=$content->field('count(*) as article')->count();
-        $replyCount=$content->where('reply',">","0")->count();
+        $replyCount=$content->query('select count(*) as count from tp_comment ');
+        $replyCount=$replyCount[0]['count'];
 //      这里也是跨表查询了会员数
         $menberCount=$content->query('select count(*) as count from tp_member ');
         $menberCount=$menberCount[0]['count'];

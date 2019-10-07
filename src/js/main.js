@@ -249,6 +249,7 @@ let load=()=>{
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
+                console.log(response)
                 $("#member-count").append(response.msg[1]);
                 $("#article-count").append(response.msg[0]);
                 $("#reply-count").append(response.msg[2]);
