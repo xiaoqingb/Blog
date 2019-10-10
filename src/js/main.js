@@ -84,7 +84,7 @@ let load=()=>{
             area: ['auto', 'auto'],
             skin: 'layui-layer-nobg', //没有背景色
             shadeClose: true,
-            content: '<img  src="https://i.loli.net/2019/09/28/KTjfQbFnRZzioMc.png">'
+            content: '<img  src="/blog/public/static/uploads/20190906/3fe512dbe13236d480a41163f2564da.png">'
         });
     })
     // 绑定登出按钮
