@@ -12,7 +12,7 @@ class Member extends Auth
     protected $beforeActionList = [
         'isAuthed' => ['only' => 'getName']
     ];
-//    获取会员名字
+    //获取会员名字
     public function getName()
     {
         $this->isAuthed();
@@ -23,7 +23,7 @@ class Member extends Auth
             ]
         );
     }
-//    获取会员列表
+    //获取会员列表
     public function get_Member_list()
     {
         $content = new MemberModel();
@@ -36,7 +36,7 @@ class Member extends Auth
             ]
         );
     }
-//    查看会员信息
+    //查看会员信息
     public function get_member_msg()
     {
         $content = new MemberModel();
@@ -55,7 +55,7 @@ class Member extends Auth
             ]
         );
     }
-//    注册登录注销
+    // 注册登录注销
     public function regist()
     {
         $email = input('post.email');
@@ -99,7 +99,7 @@ class Member extends Auth
         $email = input('post.email', '');
         $password = input('post.password', '');
 
-//            step 1.验证用户的输入
+        //step 1.验证用户的输入
         $rule = [
             'password' => 'require',
             'email' => 'require|email',
@@ -123,7 +123,7 @@ class Member extends Auth
                 ]
             );
         }
-//            step 2.判断账号存不存在
+        //step 2.判断账号存不存在
         $member = new memberModel();
         $result = $member->where('usermail', $email)->find();
         if (!$result) {
@@ -134,7 +134,7 @@ class Member extends Auth
                 ]
             );
         }
-//            step 3.验证账号密码正不正确
+        //step 3.验证账号密码正不正确
         $member = $member->where('usermail', $email)->where('password', md5($password))->find();
         if (!$member) {
             //密码错误
@@ -149,14 +149,16 @@ class Member extends Auth
         $username = $username[0]['username'];
         $userid = $member->query('select userid from tp_member where usermail="' . $email . '" limit 1');
         $userid = $userid[0]['userid'];
-//            step 4.成功登录后将数据写入 session 和cookie
-        Session::set('username', $username);
-        Session::set('userid', $userid);
+        //step 4.成功登录后将数据写入 session 和cookie
+        // session_start();
+        session('userid',$userid);
+        session('username',$username);
+        
         Cookie::set('user', $userid . '::' . $username, 7 * 24 * 60 * 60);
         return json_encode(
             [
                 'code' => '0000',
-                'msg' => $username
+                'msg' => $username,
             ]
         );
     }
@@ -171,7 +173,7 @@ class Member extends Auth
             ]
         );
     }
-//    获取基础信息
+    //获取基础信息
     public function get_basic_msg()
     {
         $member = new MemberModel();
@@ -183,7 +185,7 @@ class Member extends Auth
             ]
         );
     }
-//    修改基础信息
+    //修改基础信息
     public function change_basic_msg()
     {
         $member = new MemberModel();
@@ -233,7 +235,7 @@ class Member extends Auth
             ]
         );
     }
-//    修改密码
+    //修改密码
     public function change_password(){
         $member = new MemberModel();
         $newPassword = input('post.newPassword');
@@ -255,7 +257,7 @@ class Member extends Auth
             ]
         );
     }
-//    上传头像用的方法
+    //上传头像用的方法
     public function upload_file()
     {
         $file = request()->file('file'); // 获取上传的文件

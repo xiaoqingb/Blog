@@ -31,6 +31,8 @@
                       </button>
                     <a href="regist"><button class="layui-btn" >注册
                       </button></a>
+                      <a><button class="layui-btn"  id='visitor-login-btn'>游客访问
+                    </button></a>
                 </div>
             </div>
         </div>
@@ -68,6 +70,28 @@
             })
         });
     });
+    $('#visitor-login-btn').click(function(){
+        $.ajax({
+                url:'/blog/public/index/Member/login',
+                type:'post',
+                data:{
+                    email:'123123@qq.com',
+                    password:'1',
+                },
+                success:function (response) {
+                    response=JSON.parse(response);
+                    console.log(response)
+                    if (response.code!=='0000'){
+                        layer.msg('欢迎你~,'+response.msg);
+                        return;
+                    }
+                    layer.msg(response.msg);
+                    setTimeout(function () {
+                        location.href='index';
+                    },3000);
+                }
+            })
+    })
 </script>
 </body>
 </html>

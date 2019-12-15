@@ -11,82 +11,82 @@ class Content extends Auth{
         'isAuthed' => ['only' => 'show_article']
     ];
 
-//  获取轮播图的图片地址
+    //  获取轮播图的图片地址
     public function get_carousel_pic(){
         $content=new ContentModel();
-//      设置要显示的图片数
-        $picNum=input('get.picNum');
-        $picSrc=$content->query('select pic,title from tp_content order by time desc limit '.$picNum);
-        return json_encode(
-                    [
-                        'code'=>"0000",
-                        'msg'=>$picSrc,
-                    ]
-                );
-    }
-//  获取文章列表
-    public function get_article_list(){
-        $content=new ContentModel();
-        $keyword=input('get.keyword');
-        if($keyword){
-//          每一个列表的每一项相同内容都取出来形成一个数组
-            $description=$content->where("keywords",'like','%'.$keyword.'%')->column('description') ;
-            if(!$description)
-            return json_encode(
-                [
-                    'code'=>"0001",
-                    'msg'=>"搜索内容不存在",
-                ]
-            );
-            $pic=$content->where("keywords",'like','%'.$keyword.'%')->column('pic') ;
-            $view=$content->where("keywords",'like','%'.$keyword.'%')->column('view') ;
-            $id=$content->where("keywords",'like','%'.$keyword.'%')->column('uid');
-            $reply=$content->where("keywords",'like','%'.$keyword.'%')->column('reply');
-            $title=$content->where("keywords",'like','%'.$keyword.'%')->column('title');
-            $time=$content->where("keywords",'like','%'.$keyword.'%')->column('time');
+        //      设置要显示的图片数
+                $picNum=input('get.picNum');
+                $picSrc=$content->query('select pic,title from tp_content order by time desc limit '.$picNum);
+                return json_encode(
+                            [
+                                'code'=>"0000",
+                                'msg'=>$picSrc,
+                            ]
+                        );
+            }
+        //  获取文章列表
+            public function get_article_list(){
+                $content=new ContentModel();
+                $keyword=input('get.keyword');
+                if($keyword){
+                    // 每一个列表的每一项相同内容都取出来形成一个数组
+                    $description=$content->where("keywords",'like','%'.$keyword.'%')->column('description') ;
+                    if(!$description)
+                    return json_encode(
+                        [
+                            'code'=>"0001",
+                            'msg'=>"搜索内容不存在",
+                        ]
+                    );
+                    $pic=$content->where("keywords",'like','%'.$keyword.'%')->column('pic') ;
+                    $view=$content->where("keywords",'like','%'.$keyword.'%')->column('view') ;
+                    $id=$content->where("keywords",'like','%'.$keyword.'%')->column('uid');
+                    $reply=$content->where("keywords",'like','%'.$keyword.'%')->column('reply');
+                    $title=$content->where("keywords",'like','%'.$keyword.'%')->column('title');
+                    $time=$content->where("keywords",'like','%'.$keyword.'%')->column('time');
 
-//          根据id从会员表中取出名字，若没有名字就默认匿名
-            foreach ($id as $item){
-                $result=$content->query('select username from tp_member where userid='.$item);
-                if (!$result){
-                    $nameList[]='匿名';
-                }else{
-                    $result=$result[0]['username'];
-                    $nameList[]= $result;
+                    // 根据id从会员表中取出名字，若没有名字就默认匿名
+                    foreach ($id as $item){
+                        $result=$content->query('select username from tp_member where userid='.$item);
+                        if (!$result){
+                            $nameList[]='匿名';
+                        }else{
+                            $result=$result[0]['username'];
+                            $nameList[]= $result;
+                        }
+                    }
+                    return json_encode(
+                        [
+                            'code'=>"0000",
+                            'msg'=>[$title,$description,$pic,$view,$reply,$id,$nameList,$time],
+                        ]
+                    );
                 }
+                $limitNum=input('get.num');
+                $description=$content->orderRaw('id desc')->limit($limitNum)->column('description') ;
+                $pic=$content->orderRaw('id desc')->limit($limitNum)->column('pic') ;
+                $view=$content->orderRaw('id desc')->limit($limitNum)->column('view') ;
+                $id=$content->orderRaw('id desc')->limit($limitNum)->column('id');
+                $reply=$content->orderRaw('id desc')->limit($limitNum)->column('reply');
+                $title=$content->orderRaw('id desc')->limit($limitNum)->column('title');
+                $time=$content->orderRaw('id desc')->limit($limitNum)->column('time');
+                foreach ($id as $item){
+                    $result=$content->query('select username from tp_member where userid='.$item);
+                    if (!$result){
+                        $nameList[]='匿名';
+                    }else{
+                        $result=$result[0]['username'];
+                    $nameList[]= $result;
+                    }
+                }
+                return json_encode(
+                            [
+                                'code'=>"010",
+                                'msg'=>[$title,$description,$pic,$view,$reply,$id,$nameList,$time],
+                            ]
+                        );
             }
-            return json_encode(
-                [
-                    'code'=>"0000",
-                    'msg'=>[$title,$description,$pic,$view,$reply,$id,$nameList,$time],
-                ]
-            );
-        }
-        $limitNum=input('get.num');
-        $description=$content->orderRaw('id desc')->limit($limitNum)->column('description') ;
-        $pic=$content->orderRaw('id desc')->limit($limitNum)->column('pic') ;
-        $view=$content->orderRaw('id desc')->limit($limitNum)->column('view') ;
-        $id=$content->orderRaw('id desc')->limit($limitNum)->column('id');
-        $reply=$content->orderRaw('id desc')->limit($limitNum)->column('reply');
-        $title=$content->orderRaw('id desc')->limit($limitNum)->column('title');
-        $time=$content->orderRaw('id desc')->limit($limitNum)->column('time');
-        foreach ($id as $item){
-            $result=$content->query('select username from tp_member where userid='.$item);
-            if (!$result){
-                $nameList[]='匿名';
-            }else{
-                $result=$result[0]['username'];
-            $nameList[]= $result;
-            }
-        }
-        return json_encode(
-                    [
-                        'code'=>"010",
-                        'msg'=>[$title,$description,$pic,$view,$reply,$id,$nameList,$time],
-                    ]
-                );
-    }
-//  获取指定会员的文章列表
+        //  获取指定会员的文章列表
     public function get_member_article(){
         $content=new ContentModel();
         $memberName=input("get.memberName");
@@ -102,13 +102,13 @@ class Content extends Auth{
             ]
         );
     }
-//  获取主页面右边的文章数，会员数，回复量
+    //  获取主页面右边的文章数，会员数，回复量
     public function get_article_menber_reply_count(){
         $content=new ContentModel();
         $articleCount=$content->field('count(*) as article')->count();
         $replyCount=$content->query('select count(*) as count from tp_comment ');
         $replyCount=$replyCount[0]['count'];
-//      这里也是跨表查询了会员数
+        //这里也是跨表查询了会员数
         $menberCount=$content->query('select count(*) as count from tp_member ');
         $menberCount=$menberCount[0]['count'];
 
@@ -119,15 +119,15 @@ class Content extends Auth{
             ]
         );
     }
-//    提交稿子
+    //提交稿子
     public function submit_article(){
         $content=new ContentModel();
         $content->content=input('post.articleHtml');
         $content->description=input('post.articleText');
         $content->title=input('post.articleTitle');
         $content->time=time();
-        $content->uid=Session::get('id');
-
+        session_start();
+        $content->uid=session::get('userid');
         $pattern ='<img.*?src="(.*?)">';
         $html =input('post.articleHtml') ;
         preg_match($pattern,$html,$matches);
@@ -138,8 +138,8 @@ class Content extends Auth{
         $content->save();
         return json_encode(
             [
-                'code'=>"010",
-                'msg'=>"2333",
+                'code'=>"0000",
+                'msg'=>"投稿成功",
             ]
         );
     }

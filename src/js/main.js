@@ -25,7 +25,7 @@ let load=()=>{
     //绑定了导航栏和搜索栏监听事件，传入关键词,后台进行模糊搜索
     let search=(keyword)=>{
         $.ajax({
-            url: "/blog/public/index/Content/get_article_list",
+            url: "/public/index/Content/get_article_list",
             type: "get",
             data: {
                 'keyword': keyword,
@@ -84,13 +84,13 @@ let load=()=>{
             area: ['auto', 'auto'],
             skin: 'layui-layer-nobg', //没有背景色
             shadeClose: true,
-            content: '<img  src="/blog/public/static/uploads/20190906/3fe512dbe13236d480a41163f2564da.png">'
+            content: '<img  src="/public/static/uploads/20190906/3fe512dbe13236d480a41163f2564da.png">'
         });
     })
     // 绑定登出按钮
     $('#logout-btn').click(function() {
         $.ajax({
-            url:'/blog/public/index/member/logout',
+            url:'/public/index/member/logout',
             type:'post',
             success: ()=> {
                 location.href="login"
@@ -113,7 +113,7 @@ let load=()=>{
     function ajaxDemo() {
         // 加载导航栏
         return $.ajax({
-            url: "/blog/public/index/Nav/get_nav",
+            url: "/public/index/Nav/get_nav",
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
@@ -148,7 +148,7 @@ let load=()=>{
     // 加载轮播图
     ajaxDemo().then((response) => {
         $.ajax({
-            url: "/blog/public/index/Content/get_carousel_pic",
+            url: "/public/index/Content/get_carousel_pic",
             type: "get",
             data:{
                 picNum:5
@@ -168,7 +168,7 @@ let load=()=>{
         //加载会员列表
     }).then((response) => {
         $.ajax({
-            url: "/blog/public/index/Member/get_Member_list",
+            url: "/public/index/Member/get_Member_list",
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
@@ -188,7 +188,7 @@ let load=()=>{
         // 加载文章列表
     }).then((response) => {
         $.ajax({
-            url: "/blog/public/index/Content/get_article_list",
+            url: "/public/index/Content/get_article_list",
             type: "get",
             data:{
                 num:4
@@ -226,7 +226,7 @@ let load=()=>{
         // 获取置顶
     }).then((response) => {
         $.ajax({
-            url: "/blog/public/index/Content/get_settop_commmend",
+            url: "/public/index/Content/get_settop_commmend",
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
@@ -245,7 +245,7 @@ let load=()=>{
         // 获取会员数，回复数，文章数
     }).then((response) => {
         $.ajax({
-            url: "/blog/public/index/Content/get_article_menber_reply_count",
+            url: "/public/index/Content/get_article_menber_reply_count",
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
@@ -260,7 +260,7 @@ let load=()=>{
         // 获取热门推荐
     }).then((response) => {
         $.ajax({
-            url: "/blog/public/index/Content/get_hot_command",
+            url: "/public/index/Content/get_hot_command",
             type: "get",
             success: (response) => {
                 response = JSON.parse(response);
@@ -297,7 +297,7 @@ let load=()=>{
 }
 $(window).on("load",function(){
     $.ajax({
-        url: "/blog/public/index/member/getName",
+        url: "/public/index/member/getName",
         type: "get",
         success:  (response)=>{
             response = JSON.parse(response);

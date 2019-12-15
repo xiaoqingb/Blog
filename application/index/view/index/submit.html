@@ -118,18 +118,43 @@
     editor.create()
     // 初始化 textarea 的值
     $text1.val(editor.txt.html())
-    // 我将修改文章和提交文章合并在一起了
+    // 我将修改文章和提交文章合并在一起了m
     // 这个是用来判断是否要进入修改文章页面
     function ifEdit(){
-        let article = unescape(/(name)=(.*)/.exec(location.search)[1]);
-        if(!article){
-            console.log("A")
+        // let article = unescape(/(name)=(.*)/.exec(location.search)[1]);
+        let result=location.search.indexOf('name');
+        if(result<0){
+            console.log('投稿页面');
+            $("#submit-contribute").click(function () {
+                console.log("aaaaaa")
+                let articleTitle = $('#article-title').val();
+                let articleText = editor.txt.text();
+                let articleHtml = editor.txt.html();
+                if (articleTitle == "" || articleText == "") {
+                    layer.msg('标题和内容填写不完整！', {icon: 2, time: 1000});
+                    return false;
+                }
+                // console.log(articleTitle, articleText, articleHtml);
+                $.ajax({
+                    url: "/__PUBLIC__/index/content/submit_article",
+                    type: "post",
+                    data: {
+                        articleTitle, articleText, articleHtml
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        // console.log(response);
+                        layer.msg(response.msg, {icon: 1, time: 1000});
+                    },
+                    error: function (response) {
+                        // console.log(response);
+                    }
+                });
+            })
             return;
         }
-        console.log("B")
-        article = unescape(/(name)=(.*)/.exec(location.search)[2]);
-        console.log(article);
-        if (article) {
+        console.log("编辑文章页面");
+        let article = unescape(/(name)=(.*)/.exec(location.search)[2]);
             $('#article-title').val(article);
             $.ajax({
                 url:'/__PUBLIC__/index/content/show_article',
@@ -174,34 +199,6 @@
                     })
                 }
             })
-        }else{
-            $("#submit-contribute").click(function () {
-                console.log("aaaaaa")
-                let articleTitle = $('#article-title').val();
-                let articleText = editor.txt.text();
-                let articleHtml = editor.txt.html();
-                if (articleTitle == "" || articleText == "") {
-                    layer.msg('标题和内容填写不完整！', {icon: 2, time: 1000});
-                    return false;
-                }
-                // console.log(articleTitle, articleText, articleHtml);
-                $.ajax({
-                    url: "/__PUBLIC__/index/content/submit_article",
-                    type: "post",
-                    data: {
-                        articleTitle, articleText, articleHtml
-                    },
-                    success: function (response) {
-                        response = JSON.parse(response);
-                        // console.log(response);
-                        layer.msg('添加成功!', {icon: 1, time: 1000});
-                    },
-                    error: function (response) {
-                        // console.log(response);
-                    }
-                });
-            })
-        }
     }
     ifEdit();
     $('#logout-btn').click(function () {

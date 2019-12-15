@@ -20,7 +20,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label" for="nickName">昵称</label>
             <div class="layui-input-block">
-                <input type="text" name="nickName" id="nickName" required  lay-verify="required" placeholder="请输入邮箱"  class="layui-input">
+                <input type="text" name="nickName" id="nickName" required  lay-verify="required" placeholder="请输入昵称"  class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -33,12 +33,6 @@
             <label class="layui-form-label" for="password">密码</label>
             <div class="layui-input-inline">
                 <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码"  class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" for="comfirm-password">重复密码</label>
-            <div class="layui-input-inline">
-                <input type="password" name="comfirm-password" id="comfirm-password" required lay-verify="required" placeholder="请再次输入密码"  class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -80,10 +74,13 @@
         //监听提交
         form.on('submit(formDemo)', function(data){
             console.log(data.field)
-            if(data.field['password']!==data.field['comfirm-password']){
-                layer.msg('呜呜呜，两次输入密码不一致!');
-                return false;
-            }
+            // 为了提高用户体验，不把密码要求定的太高了
+
+            
+            // if(data.field['password']!==data.field['comfirm-password']){
+            //     layer.msg('呜呜呜，两次输入密码不一致!');
+            //     return false;
+            // }
             // 验证邮箱格式
             var a=/[a-zA-Z0-9]{6,20}/.test(data.field['email']);
             if(!a){
@@ -92,14 +89,14 @@
                 return ;
             }
             // 验证密码格式
-            var a=/[a-z]{1,}/.test(data.field['password']);
-            var b=/[A-Z]{1,}/.test(data.field['password']);
-            var c=/[0-9]{1,}/.test(data.field['password']);
-            var d=/\w{6,20}/.test(data.field['password']);
-            if(!a || !b || !c ||!d){
-                // 不符合则输出错误信息
-                layer.msg('呜呜呜，密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!');
-            }
+            // var a=/[a-z]{1,}/.test(data.field['password']);
+            // var b=/[A-Z]{1,}/.test(data.field['password']);
+            // var c=/[0-9]{1,}/.test(data.field['password']);
+            // var d=/\w{6,20}/.test(data.field['password']);
+            // if(!a || !b || !c ||!d){
+            //     // 不符合则输出错误信息
+            //     layer.msg('呜呜呜，密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!');
+            // }
             $.ajax({
                 url:'/blog/public/index/Member/regist',
                 type:'post',
@@ -113,6 +110,7 @@
                 success:function (response) {
                     response=JSON.parse(response);
                     console.log(response)
+                    location.href='login'
                     if (response.code!=='0000'){
                         console.log(response.msg)
                     }
